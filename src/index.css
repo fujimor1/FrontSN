@@ -1,0 +1,38 @@
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Colapsables de Unidades — que se vean como filas de una misma tarjeta blanca,
+   no como los paneles grises por defecto de AntD (pedido explícito: "muy distinto
+   al resto"). */
+.sn-collapse-unidades .ant-collapse-item {
+  border-bottom: 1px solid #e7e9ee;
+}
+.sn-collapse-unidades .ant-collapse-item:last-child {
+  border-bottom: none;
+}
+.sn-collapse-unidades .ant-collapse-header {
+  padding: 16px 20px !important;
+}
+.sn-collapse-unidades .ant-collapse-content-box {
+  padding: 0 20px 16px !important;
+}
+
+/* Filas de acciones dentro de una tarjeta (LoteDetailPage) — feedback de hover, ya que son
+   divs clicables, no botones nativos. */
+.sn-accion-row:hover {
+  background: #f7f8fa;
+}
