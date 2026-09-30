@@ -25,76 +25,207 @@ export function LoginPage() {
         alignItems: "center",
         minHeight: "100vh",
         background: "linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)",
-        padding: 20,
+        padding: 24,
       }}
     >
       <Card
         style={{
-          width: 420,
-          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)",
-          borderRadius: 16,
+          width: "100%",
+          maxWidth: 920,
+          boxShadow: "0 20px 35px -10px rgba(15, 23, 42, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.05)",
+          borderRadius: 20,
           border: "1px solid #e2e8f0",
-          padding: "16px 8px",
+          overflow: "hidden",
+          padding: 0,
         }}
+        styles={{ body: { padding: 0 } }}
       >
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+            minHeight: 520,
+          }}
+        >
+          {/* Panel Izquierdo: Formulario Accesible */}
           <div
             style={{
-              width: 52,
-              height: 52,
-              borderRadius: 14,
-              background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-              color: "#fff",
-              display: "inline-flex",
-              alignItems: "center",
+              padding: "44px 38px",
+              display: "flex",
+              flexDirection: "column",
               justifyContent: "center",
-              fontSize: 22,
-              fontWeight: 700,
-              boxShadow: "0 4px 10px 0 rgba(37, 99, 235, 0.35)",
-              marginBottom: 14,
+              background: "#ffffff",
             }}
           >
-            SN
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
+              <img
+                src="/logo-trucha.jpg"
+                alt="Logo Trucha Sierra Nevada"
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 12,
+                  objectFit: "cover",
+                  boxShadow: "0 3px 8px rgba(37, 99, 235, 0.2)",
+                  border: "1px solid #e2e8f0",
+                }}
+              />
+              <div>
+                <Typography.Title
+                  level={3}
+                  style={{
+                    margin: 0,
+                    color: "#0f172a",
+                    fontWeight: 700,
+                    letterSpacing: "-0.02em",
+                    fontSize: 22,
+                  }}
+                >
+                  Sierra Nevada
+                </Typography.Title>
+                <Typography.Text style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>
+                  Piscigranja de Truchas • Sistema Interno
+                </Typography.Text>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 24 }}>
+              <Typography.Title level={4} style={{ margin: "0 0 6px 0", color: "#1e293b", fontWeight: 600 }}>
+                Acceso al Sistema
+              </Typography.Title>
+              <Typography.Text style={{ fontSize: 14, color: "#475569" }}>
+                Ingrese sus credenciales de operador o administrador para continuar.
+              </Typography.Text>
+            </div>
+
+            {error && (
+              <Alert
+                type="error"
+                message={error}
+                showIcon
+                style={{ marginBottom: 20, borderRadius: 10, fontSize: 14 }}
+              />
+            )}
+
+            <Form<LoginFormValues> layout="vertical" onFinish={onFinish} disabled={cargando} size="large">
+              <Form.Item
+                name="nombreUsuario"
+                label={<span style={{ fontSize: 14, fontWeight: 600, color: "#334155" }}>Usuario</span>}
+                rules={[{ required: true, message: "Por favor ingrese su usuario" }]}
+              >
+                <Input
+                  prefix={<UserOutlined style={{ color: "#64748b", fontSize: 16 }} />}
+                  placeholder="Ej. admin"
+                  autoFocus
+                  style={{ height: 44, borderRadius: 8, fontSize: 15 }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="password"
+                label={<span style={{ fontSize: 14, fontWeight: 600, color: "#334155" }}>Contraseña</span>}
+                rules={[{ required: true, message: "Por favor ingrese su contraseña" }]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined style={{ color: "#64748b", fontSize: 16 }} />}
+                  placeholder="••••••••"
+                  style={{ height: 44, borderRadius: 8, fontSize: 15 }}
+                />
+              </Form.Item>
+
+              <Form.Item style={{ marginTop: 28, marginBottom: 0 }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={cargando}
+                  block
+                  style={{
+                    height: 46,
+                    fontSize: 16,
+                    fontWeight: 600,
+                    borderRadius: 8,
+                    background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+                    boxShadow: "0 4px 12px rgba(37, 99, 235, 0.35)",
+                  }}
+                >
+                  Iniciar Sesión
+                </Button>
+              </Form.Item>
+            </Form>
           </div>
-          <Typography.Title
-            level={3}
+
+          {/* Panel Derecho: Fotografía Andina en Alta Definición */}
+          <div
             style={{
-              margin: 0,
-              color: "#0f172a",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
+              position: "relative",
+              backgroundImage: `url('/trout-hero.jpg')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              padding: 36,
             }}
           >
-            Sierra Nevada
-          </Typography.Title>
-          <Typography.Text type="secondary" style={{ fontSize: 13, color: "#64748b", marginTop: 4, display: "block" }}>
-            Sistema de Producción y Gestión de Inventario
-          </Typography.Text>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.75) 100%)",
+              }}
+            />
+            <div
+              style={{
+                position: "relative",
+                zIndex: 1,
+                color: "#ffffff",
+              }}
+            >
+              <div
+                style={{
+                  display: "inline-block",
+                  padding: "4px 12px",
+                  borderRadius: 20,
+                  background: "rgba(37, 99, 235, 0.85)",
+                  backdropFilter: "blur(4px)",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  marginBottom: 10,
+                }}
+              >
+                Acuicultura de Precisión
+              </div>
+              <Typography.Title
+                level={3}
+                style={{
+                  color: "#ffffff",
+                  fontWeight: 700,
+                  margin: "0 0 8px 0",
+                  lineHeight: 1.3,
+                  textShadow: "0 2px 4px rgba(0,0,0,0.4)",
+                }}
+              >
+                Control Total de Producción & Alimentación
+              </Typography.Title>
+              <Typography.Text
+                style={{
+                  color: "rgba(255, 255, 255, 0.9)",
+                  fontSize: 14,
+                  lineHeight: 1.5,
+                  display: "block",
+                  textShadow: "0 1px 3px rgba(0,0,0,0.4)",
+                }}
+              >
+                Monitoreo continuo de biomasa, cálculo bayesiano de crecimiento y gestión integral de inventario.
+              </Typography.Text>
+            </div>
+          </div>
         </div>
-
-        {error && <Alert type="error" message={error} showIcon style={{ marginBottom: 20, borderRadius: 8 }} />}
-
-        <Form<LoginFormValues> layout="vertical" onFinish={onFinish} disabled={cargando} size="large">
-          <Form.Item
-            name="nombreUsuario"
-            label="Usuario"
-            rules={[{ required: true, message: "Ingresa tu nombre de usuario" }]}
-          >
-            <Input prefix={<UserOutlined style={{ color: "#94a3b8" }} />} placeholder="Ej. admin" autoFocus />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Contraseña"
-            rules={[{ required: true, message: "Ingresa tu contraseña" }]}
-          >
-            <Input.Password prefix={<LockOutlined style={{ color: "#94a3b8" }} />} placeholder="••••••••" />
-          </Form.Item>
-          <Form.Item style={{ marginTop: 24, marginBottom: 8 }}>
-            <Button type="primary" htmlType="submit" loading={cargando} block size="large" style={{ height: 44, fontSize: 15 }}>
-              Iniciar Sesión
-            </Button>
-          </Form.Item>
-        </Form>
       </Card>
     </div>
   );

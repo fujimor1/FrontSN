@@ -104,30 +104,25 @@ export function AppLayout() {
             borderBottom: "1px solid #e2e8f0",
           }}
         >
-          <div
+          <img
+            src="/logo-trucha.jpg"
+            alt="Sierra Nevada Truchas"
             style={{
-              width: 34,
-              height: 34,
+              width: 38,
+              height: 38,
               borderRadius: 10,
-              background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 14,
-              fontWeight: 700,
+              objectFit: "cover",
               flexShrink: 0,
-              boxShadow: "0 2px 5px 0 rgba(37, 99, 235, 0.3)",
+              boxShadow: "0 2px 6px rgba(37, 99, 235, 0.25)",
+              border: "1px solid #e2e8f0",
             }}
-          >
-            SN
-          </div>
+          />
           <div>
             <div style={{ fontWeight: 700, fontSize: 15, color: "#0f172a", lineHeight: 1.2 }}>
               Sierra Nevada
             </div>
             <div style={{ fontSize: 11, color: "#64748b", fontWeight: 500 }}>
-              Gestión & Producción
+              Piscigranja de Truchas
             </div>
           </div>
         </div>

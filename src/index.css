@@ -1,52 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
 :root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Design Tokens - Sierra Nevada SaaS Palette */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-light: #eff6ff;
+  --color-primary-border: #bfdbfe;
+
+  --color-success: #16a34a;
+  --color-success-light: #f0fdf4;
+  --color-success-border: #bbf7d0;
+
+  --color-warning: #d97706;
+  --color-warning-light: #fffbeb;
+  --color-warning-border: #fde68a;
+
+  --color-danger: #dc2626;
+  --color-danger-light: #fef2f2;
+  --color-danger-border: #fecaca;
+
+  /* Neutrals - High Contrast for Senior Ergonomics */
   --bg-app: #f8fafc;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  --bg-surface: #ffffff;
+  --text-primary: #0f172a; /* Slate 900 */
+  --text-secondary: #334155; /* Slate 700 - Higher contrast */
+  --text-muted: #475569; /* Slate 600 - High legibility */
   --border-subtle: #e2e8f0;
   --border-input: #cbd5e1;
-  --primary-blue: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #eff6ff;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
-  --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-modal: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  --shadow-card-hover: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --shadow-modal: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html, body {
+body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
   background-color: var(--bg-app);
   color: var(--text-primary);
+  font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
 }
 
-#root {
-  min-height: 100vh;
-}
-
-/* Scrollbar moderno y sutil */
+/* Scrollbar refinado */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f1f5f9;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 9999px;
+  border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
@@ -67,7 +81,8 @@ html, body {
 .ant-card-head {
   border-bottom: 1px solid var(--border-subtle) !important;
   padding: 0 20px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
   color: var(--text-primary) !important;
 }
 
@@ -75,25 +90,27 @@ html, body {
   padding: 20px !important;
 }
 
-/* Refinamiento para Tablas de Ant Design */
+/* Refinamiento para Tablas de Ant Design (Senior Friendly Legibility) */
 .ant-table-wrapper .ant-table {
   border-radius: 10px !important;
-  font-size: 13.5px !important;
+  font-size: 14.5px !important;
 }
 
 .ant-table-wrapper .ant-table-thead > tr > th {
   background: #f8fafc !important;
   color: var(--text-secondary) !important;
-  font-weight: 600 !important;
-  font-size: 12px !important;
-  letter-spacing: 0.03em !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  letter-spacing: 0.02em !important;
   border-bottom: 1px solid var(--border-subtle) !important;
-  padding: 12px 16px !important;
+  padding: 14px 16px !important;
 }
 
 .ant-table-wrapper .ant-table-tbody > tr > td {
   border-bottom: 1px solid #f1f5f9 !important;
   padding: 14px 16px !important;
+  font-size: 14.5px !important;
+  color: var(--text-primary) !important;
   transition: background 0.15s ease !important;
 }
 
@@ -103,8 +120,9 @@ html, body {
 
 /* Refinamiento para Botones */
 .ant-btn {
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   letter-spacing: 0.01em !important;
+  font-size: 14.5px !important;
   transition: all 0.15s ease-in-out !important;
 }
 
@@ -135,15 +153,22 @@ html, body {
   background-color: #f8fafc !important;
 }
 
-/* Refinamiento para Inputs y Selects */
+/* Refinamiento para Inputs y Selects (Altura y legibilidad accesible) */
 .ant-input,
 .ant-input-number,
 .ant-select-selector,
 .ant-picker {
   border-radius: 8px !important;
   border-color: var(--border-input) !important;
-  font-size: 13.5px !important;
+  font-size: 14.5px !important;
+  color: var(--text-primary) !important;
   transition: all 0.15s ease-in-out !important;
+}
+
+.ant-form-item-label > label {
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+  color: var(--text-secondary) !important;
 }
 
 .ant-input:hover,
@@ -158,28 +183,47 @@ html, body {
 .ant-input-number-focused,
 .ant-select-focused .ant-select-selector,
 .ant-picker-focused {
-  border-color: var(--primary-blue) !important;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
 }
 
-/* Refinamiento para Labels de Formularios */
-.ant-form-item-label > label {
-  font-weight: 500 !important;
-  color: var(--text-primary) !important;
-  font-size: 13px !important;
+/* Píldoras de Estado Suaves (Pill Badges) */
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-/* Soft Badges y Pills */
-.ant-tag {
-  border-radius: 9999px !important;
-  padding: 3px 10px !important;
-  font-weight: 500 !important;
-  font-size: 12px !important;
-  border: none !important;
-  line-height: 1.4 !important;
+.pill-badge-success {
+  background-color: var(--color-success-light);
+  border: 1px solid var(--color-success-border);
+  color: var(--color-success);
 }
 
-/* Modales con sombras suaves y esquinas elegantes */
+.pill-badge-warning {
+  background-color: var(--color-warning-light);
+  border: 1px solid var(--color-warning-border);
+  color: var(--color-warning);
+}
+
+.pill-badge-danger {
+  background-color: var(--color-danger-light);
+  border: 1px solid var(--color-danger-border);
+  color: var(--color-danger);
+}
+
+.pill-badge-info {
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  color: var(--color-primary);
+}
+
+/* Modales Modernos */
 .ant-modal-content {
   border-radius: 16px !important;
   box-shadow: var(--shadow-modal) !important;
@@ -187,49 +231,26 @@ html, body {
 }
 
 .ant-modal-header {
-  margin-bottom: 16px !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  padding-bottom: 16px !important;
+  margin-bottom: 20px !important;
 }
 
 .ant-modal-title {
-  font-size: 17px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
   color: var(--text-primary) !important;
 }
 
-/* Colapsables de Unidades */
-.sn-collapse-unidades .ant-collapse-item {
-  border-bottom: 1px solid var(--border-subtle);
-}
-.sn-collapse-unidades .ant-collapse-item:last-child {
-  border-bottom: none;
-}
-.sn-collapse-unidades .ant-collapse-header {
-  padding: 16px 20px !important;
-  font-weight: 500;
-}
-.sn-collapse-unidades .ant-collapse-content-box {
-  padding: 0 20px 16px !important;
+.ant-modal-footer {
+  border-top: 1px solid var(--border-subtle) !important;
+  padding-top: 16px !important;
+  margin-top: 24px !important;
 }
 
-/* Filas de acciones */
-.sn-accion-row {
-  border-radius: 8px;
-  transition: background 0.15s ease;
-}
-.sn-accion-row:hover {
-  background: var(--bg-app);
-}
-
-/* Micro-animaciones para números e indicadores */
-.sn-metric-box {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 18px 20px;
-  box-shadow: var(--shadow-card);
-  transition: all 0.2s ease;
-}
-.sn-metric-box:hover {
-  box-shadow: var(--shadow-card-hover);
-  border-color: #cbd5e1;
+/* Alineación Numérica Tabular para Finanzas y Biomasa */
+.text-tabular-num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  font-weight: 600;
 }
