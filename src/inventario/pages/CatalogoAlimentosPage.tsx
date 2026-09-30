@@ -52,18 +52,21 @@ export function CatalogoAlimentosPage() {
       title: "Calibre (mm)",
       dataIndex: "calibreMm",
       key: "calibreMm",
+      align: "right" as const,
       render: (cal: number) => `${cal.toFixed(1)} mm`,
     },
     {
       title: "% Proteína",
       dataIndex: "porcentajeProteina",
       key: "porcentajeProteina",
+      align: "right" as const,
       render: (p: number) => `${p}%`,
     },
     {
       title: "% Grasa",
       dataIndex: "porcentajeGrasa",
       key: "porcentajeGrasa",
+      align: "right" as const,
       render: (g: number) => `${g}%`,
     },
     {
@@ -76,6 +79,7 @@ export function CatalogoAlimentosPage() {
       title: "Costo Ref. / Kg",
       dataIndex: "costoUnitarioPromedioKg",
       key: "costoUnitarioPromedioKg",
+      align: "right" as const,
       render: (c: number) => `S/ ${c.toFixed(2)}`,
     },
   ];
@@ -86,8 +90,7 @@ export function CatalogoAlimentosPage() {
         title="Catálogo de Alimentos Balanceados"
         subtitle="Registro y especificaciones nutricionales de pellets de trucha"
         extra={
-          <Button
-            type="primary"
+          <Button size="large" type="primary"
             icon={<PlusOutlined />}
             onClick={() => setModalAbierto(true)}
           >
@@ -115,27 +118,27 @@ export function CatalogoAlimentosPage() {
       >
         <Form form={form} layout="vertical" onFinish={handleCrear}>
           <Form.Item name="nombre" label="Nombre Comercial" rules={[{ required: true }]}>
-            <Input placeholder="Ej. Inicio 2 (1.2mm)" />
+            <Input size="large" placeholder="Ej. Inicio 2 (1.2mm)" />
           </Form.Item>
           <Form.Item name="marca" label="Marca" rules={[{ required: true }]}>
-            <Input placeholder="Ej. Nicovita / Aquatec" />
+            <Input size="large" placeholder="Ej. Nicovita / Aquatec" />
           </Form.Item>
           <Space style={{ display: "flex" }}>
             <Form.Item name="calibreMm" label="Calibre (mm)" rules={[{ required: true }]}>
-              <InputNumber min={0.1} step={0.1} style={{ width: "100%" }} />
+              <InputNumber size="large" min={0.1} step={0.1} style={{ width: "100%" }} />
             </Form.Item>
             <Form.Item name="porcentajeProteina" label="% Proteína" rules={[{ required: true }]}>
-              <InputNumber min={1} max={100} style={{ width: "100%" }} />
+              <InputNumber size="large" min={1} max={100} style={{ width: "100%" }} />
             </Form.Item>
             <Form.Item name="porcentajeGrasa" label="% Grasa" rules={[{ required: true }]}>
-              <InputNumber min={1} max={100} style={{ width: "100%" }} />
+              <InputNumber size="large" min={1} max={100} style={{ width: "100%" }} />
             </Form.Item>
           </Space>
           <Form.Item name="etapaSugerida" label="Etapa Sugerida" rules={[{ required: true }]}>
-            <Input placeholder="Ej. ALEVINAJE / JUVENIL / ENGORDE" />
+            <Input size="large" placeholder="Ej. ALEVINAJE / JUVENIL / ENGORDE" />
           </Form.Item>
           <Form.Item name="costoUnitarioPromedioKg" label="Costo Estimado S/ por Kg" rules={[{ required: true }]}>
-            <InputNumber min={0.1} step={0.1} style={{ width: "100%" }} />
+            <InputNumber size="large" min={0.1} step={0.1} style={{ width: "100%" }} />
           </Form.Item>
         </Form>
       </Modal>

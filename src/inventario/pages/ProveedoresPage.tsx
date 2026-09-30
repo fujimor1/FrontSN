@@ -63,12 +63,14 @@ export function ProveedoresPage() {
       title: "Lead Time (Días Entrega)",
       dataIndex: "leadTimeDiasPromedio",
       key: "leadTimeDiasPromedio",
+      align: "right" as const,
       render: (d: number) => `${d} días`,
     },
     {
       title: "Costo Emisión Orden (S/)",
       dataIndex: "costoOrdenPedido",
       key: "costoOrdenPedido",
+      align: "right" as const,
       render: (c: number) => `S/ ${c.toFixed(2)}`,
     },
   ];
@@ -79,8 +81,7 @@ export function ProveedoresPage() {
         title="Proveedores de Alimento Balanceado"
         subtitle="Tiempos de entrega (Lead Time) y costos de emisión de órdenes para cálculo EOQ"
         extra={
-          <Button
-            type="primary"
+          <Button size="large" type="primary"
             icon={<PlusOutlined />}
             onClick={() => setModalAbierto(true)}
           >
@@ -108,20 +109,20 @@ export function ProveedoresPage() {
       >
         <Form form={form} layout="vertical" onFinish={handleCrear}>
           <Form.Item name="ruc" label="RUC" rules={[{ required: true }]}>
-            <Input placeholder="Ej. 20100128218" />
+            <Input size="large" placeholder="Ej. 20100128218" />
           </Form.Item>
           <Form.Item name="razonSocial" label="Razón Social" rules={[{ required: true }]}>
-            <Input placeholder="Ej. Alicorp S.A.A." />
+            <Input size="large" placeholder="Ej. Alicorp S.A.A." />
           </Form.Item>
           <Form.Item name="contactoNombre" label="Nombre de Contacto">
-            <Input placeholder="Ej. Juan Pérez" />
+            <Input size="large" placeholder="Ej. Juan Pérez" />
           </Form.Item>
           <Space style={{ display: "flex" }}>
             <Form.Item name="telefono" label="Teléfono">
-              <Input placeholder="987654321" />
+              <Input size="large" placeholder="987654321" />
             </Form.Item>
             <Form.Item name="email" label="Email">
-              <Input placeholder="ventas@proveedor.com" />
+              <Input size="large" placeholder="ventas@proveedor.com" />
             </Form.Item>
           </Space>
           <Space style={{ display: "flex" }}>
@@ -131,7 +132,7 @@ export function ProveedoresPage() {
               initialValue={5}
               rules={[{ required: true }]}
             >
-              <InputNumber min={1} style={{ width: "100%" }} />
+              <InputNumber size="large" min={1} style={{ width: "100%" }} />
             </Form.Item>
             <Form.Item
               name="costoOrdenPedido"
@@ -139,7 +140,7 @@ export function ProveedoresPage() {
               initialValue={50}
               rules={[{ required: true }]}
             >
-              <InputNumber min={1} step={5} style={{ width: "100%" }} />
+              <InputNumber size="large" min={1} step={5} style={{ width: "100%" }} />
             </Form.Item>
           </Space>
         </Form>

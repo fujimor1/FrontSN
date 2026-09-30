@@ -82,7 +82,7 @@ export function KardexAlimentoPage() {
               border: "1px solid #dcfce7",
               borderRadius: 9999,
               padding: "3px 10px",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
@@ -101,7 +101,7 @@ export function KardexAlimentoPage() {
               border: "1px solid #dbeafe",
               borderRadius: 9999,
               padding: "3px 10px",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
@@ -120,7 +120,7 @@ export function KardexAlimentoPage() {
               border: "1px solid #fee2e2",
               borderRadius: 9999,
               padding: "3px 10px",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
@@ -140,10 +140,11 @@ export function KardexAlimentoPage() {
       title: "Fecha & Hora",
       dataIndex: "fechaMovimiento",
       key: "fechaMovimiento",
+      align: "center" as const,
       render: (f: string) => (
         <div>
           <div style={{ fontWeight: 600, color: "#0f172a" }}>{dayjs(f).format("YYYY-MM-DD")}</div>
-          <div style={{ fontSize: 11, color: "#64748b" }}>{dayjs(f).format("HH:mm:ss")}</div>
+          <div style={{ fontSize: 14, color: "#334155" }}>{dayjs(f).format("HH:mm:ss")}</div>
         </div>
       ),
     },
@@ -162,7 +163,7 @@ export function KardexAlimentoPage() {
         return t ? (
           <div>
             <span style={{ fontWeight: 600, color: "#0f172a" }}>{t.nombre}</span>
-            <span style={{ fontSize: 12, color: "#64748b", marginLeft: 6 }}>({t.marca})</span>
+            <span style={{ fontSize: 14, color: "#334155", marginLeft: 6 }}>({t.marca})</span>
           </div>
         ) : (
           `ID ${id}`
@@ -179,7 +180,7 @@ export function KardexAlimentoPage() {
           style={{
             color: kg > 0 ? "#16a34a" : "#dc2626",
             fontWeight: 700,
-            fontSize: 13.5,
+            fontSize: 14,
             backgroundColor: kg > 0 ? "#f0fdf4" : "#fef2f2",
             padding: "2px 8px",
             borderRadius: 6,
@@ -208,7 +209,7 @@ export function KardexAlimentoPage() {
       dataIndex: "saldoStockKg",
       key: "saldoStockKg",
       align: "right" as const,
-      render: (s: number) => <strong style={{ color: "#0f172a", fontSize: 13.5 }}>{s.toLocaleString()} kg</strong>,
+      render: (s: number) => <strong style={{ color: "#0f172a", fontSize: 14 }}>{s.toLocaleString()} kg</strong>,
     },
     {
       title: "Saldo Valorizado",
@@ -216,7 +217,7 @@ export function KardexAlimentoPage() {
       key: "saldoValorizado",
       align: "right" as const,
       render: (v: number) => (
-        <strong style={{ color: "#2563eb", fontSize: 13.5 }}>
+        <strong style={{ color: "#2563eb", fontSize: 14 }}>
           S/ {v.toLocaleString(undefined, { minimumFractionDigits: 2 })}
         </strong>
       ),
@@ -225,7 +226,7 @@ export function KardexAlimentoPage() {
       title: "Observaciones",
       dataIndex: "observaciones",
       key: "observaciones",
-      render: (obs: string | null) => obs ? <span style={{ color: "#475569", fontSize: 12.5 }}>{obs}</span> : <span style={{ color: "#94a3b8" }}>—</span>,
+      render: (obs: string | null) => obs ? <span style={{ color: "#475569", fontSize: 14 }}>{obs}</span> : <span style={{ color: "#94a3b8" }}>—</span>,
     },
   ];
 
@@ -235,8 +236,7 @@ export function KardexAlimentoPage() {
         title="Kardex de Alimento Balanceado"
         subtitle="Movimientos de entradas, salidas por alimentación, mermas y saldos valorizados en tiempo real"
         extra={
-          <Button
-            type="primary"
+          <Button size="large" type="primary"
             danger
             icon={<MinusCircleOutlined />}
             onClick={() => setModalEgresoAbierto(true)}
@@ -263,11 +263,10 @@ export function KardexAlimentoPage() {
           }}
         >
           <Space size="middle" wrap>
-            <span style={{ fontSize: 13, color: "#475569", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ fontSize: 14, color: "#475569", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               <FilterOutlined style={{ color: "#2563eb" }} /> Filtros:
             </span>
-            <Select
-              placeholder="Filtrar por tipo de alimento"
+            <Select size="large" placeholder="Filtrar por tipo de alimento"
               allowClear
               style={{ width: 280 }}
               value={tipoSeleccionado}
@@ -277,8 +276,7 @@ export function KardexAlimentoPage() {
                 label: `${t.nombre} (${t.marca} - ${t.calibreMm} mm)`,
               }))}
             />
-            <DatePicker.RangePicker
-              placeholder={["Desde fecha", "Hasta fecha"]}
+            <DatePicker.RangePicker size="large" placeholder={["Desde fecha", "Hasta fecha"]}
               onChange={(dates) => {
                 if (dates && dates[0] && dates[1]) {
                   setRangoFechas([
@@ -292,7 +290,7 @@ export function KardexAlimentoPage() {
             />
           </Space>
 
-          <span style={{ fontSize: 12, color: "#64748b" }}>
+          <span style={{ fontSize: 14, color: "#334155" }}>
             Total registros: <strong>{movimientos?.length ?? 0}</strong>
           </span>
         </div>
@@ -320,8 +318,7 @@ export function KardexAlimentoPage() {
             label="Lote de Alimento en Almacén"
             rules={[{ required: true, message: "Selecciona el lote disponible" }]}
           >
-            <Select
-              placeholder="Seleccionar lote de almacén disponible"
+            <Select size="large" placeholder="Seleccionar lote de almacén disponible"
               options={lotesConStock?.map((l) => {
                 const tipo = tipos?.find((t) => t.id === l.tipoAlimentoId);
                 return {
@@ -338,8 +335,7 @@ export function KardexAlimentoPage() {
             initialValue="EgresoAlimentacion"
             rules={[{ required: true }]}
           >
-            <Select
-              options={[
+            <Select size="large" options={[
                 { value: "EgresoAlimentacion", label: "Alimentación de Estanque / Jaula" },
                 { value: "AjusteMerma", label: "Merma / Daño por Humedad / Rotura" },
                 { value: "Devolucion", label: "Devolución al Proveedor" },
@@ -352,7 +348,7 @@ export function KardexAlimentoPage() {
             label="Cantidad a Egresar (Kg)"
             rules={[{ required: true, message: "Ingresa los kilos a egresar" }]}
           >
-            <InputNumber min={0.5} step={0.5} style={{ width: "100%" }} placeholder="Ej. 50.0" />
+            <InputNumber size="large" min={0.5} step={0.5} style={{ width: "100%" }} placeholder="Ej. 50.0" />
           </Form.Item>
 
           <Form.Item name="observaciones" label="Observaciones">

@@ -92,7 +92,7 @@ export function RecepcionAlimentoPage() {
         return t ? (
           <div>
             <div style={{ fontWeight: 600, color: "#0f172a" }}>{t.nombre}</div>
-            <div style={{ fontSize: 11, color: "#64748b" }}>{t.marca} • {t.calibreMm} mm</div>
+            <div style={{ fontSize: 14, color: "#334155" }}>{t.marca} • {t.calibreMm} mm</div>
           </div>
         ) : (
           `ID ${id}`
@@ -112,6 +112,7 @@ export function RecepcionAlimentoPage() {
       title: "Vencimiento",
       dataIndex: "fechaVencimiento",
       key: "fechaVencimiento",
+      align: "center" as const,
       render: (f: string) => {
         const venc = dayjs(f);
         const dias = venc.diff(dayjs(), "day");
@@ -119,8 +120,8 @@ export function RecepcionAlimentoPage() {
         const color = dias < 30 ? "#dc2626" : dias < 60 ? "#d97706" : "#16a34a";
         return (
           <Space size="small">
-            <span style={{ fontSize: 12.5, color: "#0f172a" }}>{f}</span>
-            <span style={{ backgroundColor: bg, color: color, fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 9999 }}>
+            <span style={{ fontSize: 14, color: "#0f172a" }}>{f}</span>
+            <span style={{ backgroundColor: bg, color: color, fontSize: 14, fontWeight: 600, padding: "2px 8px", borderRadius: 9999 }}>
               {dias}d
             </span>
           </Space>
@@ -143,7 +144,7 @@ export function RecepcionAlimentoPage() {
       dataIndex: "stockKgActual",
       key: "stockKgActual",
       align: "right" as const,
-      render: (kg: number) => <strong style={{ color: "#0f172a", fontSize: 13.5 }}>{kg.toLocaleString()} kg</strong>,
+      render: (kg: number) => <strong style={{ color: "#0f172a", fontSize: 14 }}>{kg.toLocaleString()} kg</strong>,
     },
     {
       title: "Precio / Kg",
@@ -185,8 +186,7 @@ export function RecepcionAlimentoPage() {
               }}
             >
               <Form.Item name="tipoAlimentoId" label="Tipo de Alimento" rules={[{ required: true, message: "Selecciona el alimento" }]}>
-                <Select
-                  placeholder="Selecciona el tipo de alimento"
+                <Select size="large" placeholder="Selecciona el tipo de alimento"
                   options={tipos?.map((t) => ({
                     value: t.id,
                     label: `${t.nombre} - ${t.marca} (${t.calibreMm} mm)`,
@@ -195,8 +195,7 @@ export function RecepcionAlimentoPage() {
               </Form.Item>
 
               <Form.Item name="proveedorId" label="Proveedor" rules={[{ required: true, message: "Selecciona el proveedor" }]}>
-                <Select
-                  placeholder="Selecciona el proveedor"
+                <Select size="large" placeholder="Selecciona el proveedor"
                   options={proveedores?.map((p) => ({
                     value: p.id,
                     label: `${p.razonSocial} (RUC: ${p.ruc})`,
@@ -209,13 +208,13 @@ export function RecepcionAlimentoPage() {
                 label="Código / Lote del Fabricante"
                 rules={[{ required: true, message: "Ingresa el lote del saco" }]}
               >
-                <Input placeholder="Ej. LOT-NICO-2026-09A" />
+                <Input size="large" placeholder="Ej. LOT-NICO-2026-09A" />
               </Form.Item>
 
               <Row gutter={12}>
                 <Col span={12}>
                   <Form.Item name="fechaFabricacion" label="Fecha Fabricación">
-                    <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" placeholder="Seleccionar" />
+                    <DatePicker size="large" style={{ width: "100%" }} format="YYYY-MM-DD" placeholder="Seleccionar" />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -224,7 +223,7 @@ export function RecepcionAlimentoPage() {
                     label="Fecha Caducidad"
                     rules={[{ required: true, message: "Selecciona la fecha de vencimiento" }]}
                   >
-                    <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" placeholder="Seleccionar" />
+                    <DatePicker size="large" style={{ width: "100%" }} format="YYYY-MM-DD" placeholder="Seleccionar" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -232,17 +231,17 @@ export function RecepcionAlimentoPage() {
               <Row gutter={12}>
                 <Col span={8}>
                   <Form.Item name="pesoPorSacoKg" label="Peso/Saco (Kg)" rules={[{ required: true }]}>
-                    <InputNumber min={1} style={{ width: "100%" }} />
+                    <InputNumber size="large" min={1} style={{ width: "100%" }} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item name="cantidadSacos" label="N° Sacos" rules={[{ required: true }]}>
-                    <InputNumber min={1} style={{ width: "100%" }} />
+                    <InputNumber size="large" min={1} style={{ width: "100%" }} />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item name="precioUnitarioKg" label="Precio S/ por Kg" rules={[{ required: true }]}>
-                    <InputNumber min={0.1} step={0.1} style={{ width: "100%" }} />
+                    <InputNumber size="large" min={0.1} step={0.1} style={{ width: "100%" }} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -258,11 +257,11 @@ export function RecepcionAlimentoPage() {
               >
                 <Row justify="space-between" align="middle">
                   <Col>
-                    <div style={{ fontSize: 11, color: "#15803d", fontWeight: 600, textTransform: "uppercase" }}>Total Ingreso</div>
+                    <div style={{ fontSize: 14, color: "#15803d", fontWeight: 600, textTransform: "uppercase" }}>Total Ingreso</div>
                     <div style={{ fontSize: 16, fontWeight: 700, color: "#166534" }}>{calculoTotalKg.toLocaleString()} kg</div>
                   </Col>
                   <Col style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: 11, color: "#15803d", fontWeight: 600, textTransform: "uppercase" }}>Valorizado</div>
+                    <div style={{ fontSize: 14, color: "#15803d", fontWeight: 600, textTransform: "uppercase" }}>Valorizado</div>
                     <div style={{ fontSize: 16, fontWeight: 700, color: "#166534" }}>
                       S/ {calculoCostoTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </div>
@@ -281,7 +280,7 @@ export function RecepcionAlimentoPage() {
                 loading={registrarIngreso.isPending}
                 block
                 size="large"
-                style={{ height: 44, borderRadius: 10 }}
+                style={{ height: 44, borderRadius: 10, fontWeight: 600 }}
               >
                 Registrar Ingreso en Kardex
               </Button>

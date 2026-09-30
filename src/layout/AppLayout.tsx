@@ -65,7 +65,7 @@ export function AppLayout() {
             <Typography.Text strong style={{ display: "block", color: "#0f172a" }}>
               {usuario?.nombreCompleto}
             </Typography.Text>
-            <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+            <Typography.Text type="secondary" style={{ fontSize: 14 }}>
               {usuario?.nombreUsuario}
             </Typography.Text>
           </div>
@@ -121,7 +121,7 @@ export function AppLayout() {
             <div style={{ fontWeight: 700, fontSize: 15, color: "#0f172a", lineHeight: 1.2 }}>
               Sierra Nevada
             </div>
-            <div style={{ fontSize: 11, color: "#64748b", fontWeight: 500 }}>
+            <div style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>
               Piscigranja de Truchas
             </div>
           </div>
@@ -153,7 +153,7 @@ export function AppLayout() {
           }}
         >
           <div>
-            <Tag color="blue" style={{ borderRadius: 9999, padding: "2px 10px", fontSize: 11, fontWeight: 500 }}>
+            <Tag color="blue" style={{ borderRadius: 9999, padding: "2px 10px", fontSize: 14, fontWeight: 500 }}>
               Piscigranja Sierra Nevada — Huaral 2026
             </Tag>
           </div>
@@ -191,10 +191,10 @@ export function AppLayout() {
                   {usuario?.nombreCompleto?.[0]?.toUpperCase()}
                 </Avatar>
                 <div style={{ lineHeight: 1.2, textAlign: "left" }}>
-                  <Typography.Text strong style={{ fontSize: 13, color: "#0f172a", display: "block" }}>
+                  <Typography.Text strong style={{ fontSize: 14, color: "#0f172a", display: "block" }}>
                     {usuario?.nombreCompleto ?? "Usuario"}
                   </Typography.Text>
-                  <Typography.Text type="secondary" style={{ fontSize: 11, color: "#64748b" }}>
+                  <Typography.Text type="secondary" style={{ fontSize: 14, color: "#334155" }}>
                     {usuario?.rol ?? "Operario"}
                   </Typography.Text>
                 </div>

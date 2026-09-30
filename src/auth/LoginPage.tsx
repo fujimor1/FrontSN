@@ -83,7 +83,7 @@ export function LoginPage() {
                 >
                   Sierra Nevada
                 </Typography.Title>
-                <Typography.Text style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>
+                <Typography.Text style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>
                   Piscigranja de Truchas • Sistema Interno
                 </Typography.Text>
               </div>
@@ -107,14 +107,13 @@ export function LoginPage() {
               />
             )}
 
-            <Form<LoginFormValues> layout="vertical" onFinish={onFinish} disabled={cargando} size="large">
+            <Form<LoginFormValues> layout="vertical" onFinish={onFinish} disabled={cargando} size="large" >
               <Form.Item
                 name="nombreUsuario"
                 label={<span style={{ fontSize: 14, fontWeight: 600, color: "#334155" }}>Usuario</span>}
                 rules={[{ required: true, message: "Por favor ingrese su usuario" }]}
               >
-                <Input
-                  prefix={<UserOutlined style={{ color: "#64748b", fontSize: 16 }} />}
+                <Input size="large" prefix={<UserOutlined style={{ color: "#334155", fontSize: 16 }} />}
                   placeholder="Ej. admin"
                   autoFocus
                   style={{ height: 44, borderRadius: 8, fontSize: 15 }}
@@ -127,15 +126,14 @@ export function LoginPage() {
                 rules={[{ required: true, message: "Por favor ingrese su contraseña" }]}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: "#64748b", fontSize: 16 }} />}
+                  prefix={<LockOutlined style={{ color: "#334155", fontSize: 16 }} />}
                   placeholder="••••••••"
                   style={{ height: 44, borderRadius: 8, fontSize: 15 }}
                 />
               </Form.Item>
 
               <Form.Item style={{ marginTop: 28, marginBottom: 0 }}>
-                <Button
-                  type="primary"
+                <Button size="large" type="primary"
                   htmlType="submit"
                   loading={cargando}
                   block
@@ -191,7 +189,7 @@ export function LoginPage() {
                   borderRadius: 20,
                   background: "rgba(37, 99, 235, 0.85)",
                   backdropFilter: "blur(4px)",
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: 600,
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",

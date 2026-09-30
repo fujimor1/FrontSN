@@ -46,14 +46,14 @@ export function ReordenDashboardPage() {
               border: "1px solid #fee2e2",
               borderRadius: 9999,
               padding: "4px 12px",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
               gap: 5,
             }}
           >
-            <AlertOutlined style={{ fontSize: 11 }} /> CRÍTICO (≤ SS)
+            <AlertOutlined style={{ fontSize: 14 }} /> CRÍTICO (≤ SS)
           </span>
         );
       case "Reorden":
@@ -65,14 +65,14 @@ export function ReordenDashboardPage() {
               border: "1px solid #fef3c7",
               borderRadius: 9999,
               padding: "4px 12px",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
               gap: 5,
             }}
           >
-            <WarningOutlined style={{ fontSize: 11 }} /> REORDENAR (≤ ROP)
+            <WarningOutlined style={{ fontSize: 14 }} /> REORDENAR (≤ ROP)
           </span>
         );
       case "Optimo":
@@ -84,14 +84,14 @@ export function ReordenDashboardPage() {
               border: "1px solid #dcfce7",
               borderRadius: 9999,
               padding: "4px 12px",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
               gap: 5,
             }}
           >
-            <CheckCircleOutlined style={{ fontSize: 11 }} /> ÓPTIMO
+            <CheckCircleOutlined style={{ fontSize: 14 }} /> ÓPTIMO
           </span>
         );
       case "Sobrestock":
@@ -103,7 +103,7 @@ export function ReordenDashboardPage() {
               border: "1px solid #dbeafe",
               borderRadius: 9999,
               padding: "4px 12px",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 600,
               display: "inline-flex",
               alignItems: "center",
@@ -124,8 +124,8 @@ export function ReordenDashboardPage() {
       render: (nombre: string, r: ParametrosReordenDto) => (
         <div>
           <div style={{ fontWeight: 600, color: "#0f172a" }}>{nombre}</div>
-          <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
-            <Tag color="default" style={{ borderRadius: 6, fontSize: 11, padding: "1px 6px" }}>{r.marca}</Tag>
+          <div style={{ fontSize: 14, color: "#334155", marginTop: 2 }}>
+            <Tag color="default" style={{ borderRadius: 6, fontSize: 14, padding: "1px 6px" }}>{r.marca}</Tag>
             <span>{r.calibreMm} mm • {r.etapaSugerida}</span>
           </div>
         </div>
@@ -139,7 +139,7 @@ export function ReordenDashboardPage() {
       render: (kg: number, r: ParametrosReordenDto) => (
         <div style={{ textAlign: "right" }}>
           <strong style={{ fontSize: 14, color: "#0f172a" }}>{kg.toLocaleString()} kg</strong>
-          <div style={{ fontSize: 11, color: "#64748b" }}>~{r.stockActualSacosAprox} sacos (25kg)</div>
+          <div style={{ fontSize: 14, color: "#334155" }}>~{r.stockActualSacosAprox} sacos (25kg)</div>
         </div>
       ),
     },
@@ -180,7 +180,7 @@ export function ReordenDashboardPage() {
       render: (eoq: number, r: ParametrosReordenDto) => (
         <div style={{ textAlign: "right" }}>
           <span style={{ color: "#2563eb", fontWeight: 600 }}>{eoq.toFixed(0)} kg</span>
-          <div style={{ fontSize: 11, color: "#64748b" }}>({r.cantidadEconomicaPedidoEoqSacos} sacos)</div>
+          <div style={{ fontSize: 14, color: "#334155" }}>({r.cantidadEconomicaPedidoEoqSacos} sacos)</div>
         </div>
       ),
     },
@@ -200,7 +200,7 @@ export function ReordenDashboardPage() {
         const bg = d <= 5 ? "#fef2f2" : d <= 15 ? "#fffbeb" : "#f0fdf4";
         const color = d <= 5 ? "#dc2626" : d <= 15 ? "#d97706" : "#16a34a";
         return (
-          <span style={{ backgroundColor: bg, color: color, fontWeight: 700, padding: "3px 10px", borderRadius: 9999, fontSize: 12 }}>
+          <span style={{ backgroundColor: bg, color: color, fontWeight: 700, padding: "3px 10px", borderRadius: 9999, fontSize: 14 }}>
             {d} días
           </span>
         );
@@ -219,19 +219,19 @@ export function ReordenDashboardPage() {
                 border: "1px solid #ffe4e6",
                 borderRadius: 8,
                 padding: "4px 10px",
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 600,
                 display: "inline-block",
               }}
             >
               Pedir {r.sacosSugeridosPedir} sacos ({r.cantidadSugeridaPedirKg} kg)
             </span>
-            <div style={{ fontSize: 11, color: "#64748b", marginTop: 3 }}>
+            <div style={{ fontSize: 14, color: "#334155", marginTop: 3 }}>
               Costo Est.: <strong>S/ {r.costoEstimadoPedido.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong>
             </div>
           </div>
         ) : (
-          <span style={{ color: "#16a34a", fontSize: 12, fontWeight: 500, backgroundColor: "#f0fdf4", padding: "3px 8px", borderRadius: 6 }}>
+          <span style={{ color: "#16a34a", fontSize: 14, fontWeight: 500, backgroundColor: "#f0fdf4", padding: "3px 8px", borderRadius: 6 }}>
             ✓ Stock cubierto
           </span>
         ),
@@ -250,7 +250,7 @@ export function ReordenDashboardPage() {
       dataIndex: "etapaActual",
       key: "etapaActual",
       render: (e: string) => (
-        <span style={{ backgroundColor: "#eff6ff", color: "#1d4ed8", padding: "2px 8px", borderRadius: 6, fontSize: 12, fontWeight: 500 }}>
+        <span style={{ backgroundColor: "#eff6ff", color: "#1d4ed8", padding: "2px 8px", borderRadius: 6, fontSize: 14, fontWeight: 500 }}>
           {e}
         </span>
       ),
@@ -275,7 +275,7 @@ export function ReordenDashboardPage() {
       key: "temperaturaPromedioAguaC",
       align: "center" as const,
       render: (t: number) => (
-        <span style={{ backgroundColor: "#ecfeff", color: "#0891b2", padding: "2px 8px", borderRadius: 6, fontWeight: 600, fontSize: 12 }}>
+        <span style={{ backgroundColor: "#ecfeff", color: "#0891b2", padding: "2px 8px", borderRadius: 6, fontWeight: 600, fontSize: 14 }}>
           {t}°C
         </span>
       ),
@@ -310,7 +310,7 @@ export function ReordenDashboardPage() {
       dataIndex: "calibreRecomendadoMm",
       key: "calibreRecomendadoMm",
       render: (c: string) => (
-        <span style={{ backgroundColor: "#faf5ff", color: "#7e22ce", padding: "2px 8px", borderRadius: 6, fontSize: 12, fontWeight: 500 }}>
+        <span style={{ backgroundColor: "#faf5ff", color: "#7e22ce", padding: "2px 8px", borderRadius: 6, fontSize: 14, fontWeight: 500 }}>
           {c}
         </span>
       ),
@@ -361,7 +361,7 @@ export function ReordenDashboardPage() {
       key: "ic95",
       align: "center" as const,
       render: (_: unknown, r: ActualizacionBayesianaDto) => (
-        <span style={{ backgroundColor: "#f1f5f9", color: "#334155", padding: "2px 8px", borderRadius: 6, fontSize: 12, fontFamily: "monospace" }}>
+        <span style={{ backgroundColor: "#f1f5f9", color: "#334155", padding: "2px 8px", borderRadius: 6, fontSize: 14, fontFamily: "monospace" }}>
           [{r.limiteInferior95.toFixed(3)} - {r.limiteSuperior95.toFixed(3)}]
         </span>
       ),
@@ -370,7 +370,7 @@ export function ReordenDashboardPage() {
       title: "Modelo Estadístico",
       dataIndex: "interpretacion",
       key: "interpretacion",
-      render: (t: string) => <span style={{ fontSize: 12, color: "#64748b" }}>{t}</span>,
+      render: (t: string) => <span style={{ fontSize: 14, color: "#334155" }}>{t}</span>,
     },
   ];
 
@@ -386,15 +386,15 @@ export function ReordenDashboardPage() {
         <Col xs={24} sm={12} lg={6}>
           <div className="sn-metric-box" style={{ borderTop: "3px solid #dc2626" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Alimentos Críticos</span>
+              <span style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>Alimentos Críticos</span>
               <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", color: "#dc2626" }}>
                 <AlertOutlined />
               </div>
             </div>
             <div style={{ fontSize: 28, fontWeight: 700, color: "#0f172a" }}>
-              {plan?.totalCriticos ?? 0} <span style={{ fontSize: 13, fontWeight: 500, color: "#64748b" }}>calibres</span>
+              {plan?.totalCriticos ?? 0} <span style={{ fontSize: 14, fontWeight: 500, color: "#334155" }}>calibres</span>
             </div>
-            <div style={{ fontSize: 12, color: "#dc2626", marginTop: 4 }}>
+            <div style={{ fontSize: 14, color: "#dc2626", marginTop: 4 }}>
               Stock ≤ Stock de Seguridad
             </div>
           </div>
@@ -403,15 +403,15 @@ export function ReordenDashboardPage() {
         <Col xs={24} sm={12} lg={6}>
           <div className="sn-metric-box" style={{ borderTop: "3px solid #d97706" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>En Punto de Reorden</span>
+              <span style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>En Punto de Reorden</span>
               <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#fffbeb", display: "flex", alignItems: "center", justifyContent: "center", color: "#d97706" }}>
                 <WarningOutlined />
               </div>
             </div>
             <div style={{ fontSize: 28, fontWeight: 700, color: "#0f172a" }}>
-              {plan?.totalEnReorden ?? 0} <span style={{ fontSize: 13, fontWeight: 500, color: "#64748b" }}>calibres</span>
+              {plan?.totalEnReorden ?? 0} <span style={{ fontSize: 14, fontWeight: 500, color: "#334155" }}>calibres</span>
             </div>
-            <div style={{ fontSize: 12, color: "#d97706", marginTop: 4 }}>
+            <div style={{ fontSize: 14, color: "#d97706", marginTop: 4 }}>
               Stock ≤ Punto de Reorden (ROP)
             </div>
           </div>
@@ -420,15 +420,15 @@ export function ReordenDashboardPage() {
         <Col xs={24} sm={12} lg={6}>
           <div className="sn-metric-box" style={{ borderTop: "3px solid #16a34a" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>En Nivel Óptimo</span>
+              <span style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>En Nivel Óptimo</span>
               <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", color: "#16a34a" }}>
                 <CheckCircleOutlined />
               </div>
             </div>
             <div style={{ fontSize: 28, fontWeight: 700, color: "#0f172a" }}>
-              {plan?.totalOptimos ?? 0} <span style={{ fontSize: 13, fontWeight: 500, color: "#64748b" }}>calibres</span>
+              {plan?.totalOptimos ?? 0} <span style={{ fontSize: 14, fontWeight: 500, color: "#334155" }}>calibres</span>
             </div>
-            <div style={{ fontSize: 12, color: "#16a34a", marginTop: 4 }}>
+            <div style={{ fontSize: 14, color: "#16a34a", marginTop: 4 }}>
               Nivel de servicio garantizado
             </div>
           </div>
@@ -437,7 +437,7 @@ export function ReordenDashboardPage() {
         <Col xs={24} sm={12} lg={6}>
           <div className="sn-metric-box" style={{ borderTop: "3px solid #2563eb" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Inversión Sugerida</span>
+              <span style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>Inversión Sugerida</span>
               <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", color: "#2563eb" }}>
                 <DollarOutlined />
               </div>
@@ -445,7 +445,7 @@ export function ReordenDashboardPage() {
             <div style={{ fontSize: 24, fontWeight: 700, color: "#0f172a" }}>
               S/ {(plan?.inversionSugeridaTotal ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
-            <div style={{ fontSize: 12, color: "#2563eb", marginTop: 4 }}>
+            <div style={{ fontSize: 14, color: "#2563eb", marginTop: 4 }}>
               Cálculo óptimo por Wilson (EOQ)
             </div>
           </div>
@@ -467,9 +467,8 @@ export function ReordenDashboardPage() {
                 title="Monitoreo y Alertas de Stock de Alimento Balanceado"
                 extra={
                   <Space>
-                    <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Nivel de Servicio (Z):</span>
-                    <Select
-                      value={nivelZ}
+                    <span style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>Nivel de Servicio (Z):</span>
+                    <Select size="large" value={nivelZ}
                       onChange={(val) => setNivelZ(val)}
                       options={[
                         { value: 1.65, label: "95% de confianza (Z = 1.65)" },
@@ -513,9 +512,8 @@ export function ReordenDashboardPage() {
                   title="Predicción de Crecimiento Térmico y Demanda de Alimento (TGC Grados-Día)"
                   extra={
                     <Space>
-                      <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Horizonte:</span>
-                      <Select
-                        value={diasProyeccionMl}
+                      <span style={{ fontSize: 14, color: "#334155", fontWeight: 500 }}>Horizonte:</span>
+                      <Select size="large" value={diasProyeccionMl}
                         onChange={(val) => setDiasProyeccionMl(val)}
                         options={[
                           { value: 15, label: "15 días futuros" },

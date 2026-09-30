@@ -28,17 +28,17 @@ export function PageHeader({ title, subtitle, backTo, backLabel = "Volver", extr
           <Link
             to={backTo}
             style={{
-              fontSize: 13,
+              fontSize: 14,
               display: "inline-flex",
               alignItems: "center",
               gap: 6,
               marginBottom: 8,
-              color: "#64748b",
+              color: "#334155",
               fontWeight: 500,
               textDecoration: "none",
             }}
           >
-            <ArrowLeftOutlined style={{ fontSize: 12 }} /> {backLabel}
+            <ArrowLeftOutlined style={{ fontSize: 14 }} /> {backLabel}
           </Link>
         )}
         <Typography.Title
@@ -54,7 +54,7 @@ export function PageHeader({ title, subtitle, backTo, backLabel = "Volver", extr
           {title}
         </Typography.Title>
         {subtitle && (
-          <div style={{ color: "#64748b", fontSize: 13.5, marginTop: 4, fontWeight: 400 }}>
+          <div style={{ color: "#334155", fontSize: 14, marginTop: 4, fontWeight: 400 }}>
             {subtitle}
           </div>
         )}
