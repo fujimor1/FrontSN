@@ -2,6 +2,8 @@ import {
   AlertOutlined,
   CheckCircleOutlined,
   DashboardOutlined,
+  DollarOutlined,
+  InfoCircleOutlined,
   RobotOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
@@ -12,7 +14,6 @@ import {
   Row,
   Select,
   Space,
-  Statistic,
   Table,
   Tabs,
   Tag,
@@ -34,28 +35,84 @@ export function ReordenDashboardPage() {
   const { data: plan, isLoading: cargandoPlan } = usePlanReorden(nivelZ, 60);
   const { data: mlData, isLoading: cargandoMl } = useMotorMlDashboard(diasProyeccionMl);
 
-  const getSemaforoTag = (estado: EstadoStockReorden) => {
+  const getSemaforoPill = (estado: EstadoStockReorden) => {
     switch (estado) {
       case "Critico":
         return (
-          <Tag color="error" icon={<AlertOutlined />}>
-            CRÍTICO (≤ SS)
-          </Tag>
+          <span
+            style={{
+              backgroundColor: "#fef2f2",
+              color: "#dc2626",
+              border: "1px solid #fee2e2",
+              borderRadius: 9999,
+              padding: "4px 12px",
+              fontSize: 12,
+              fontWeight: 600,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <AlertOutlined style={{ fontSize: 11 }} /> CRÍTICO (≤ SS)
+          </span>
         );
       case "Reorden":
         return (
-          <Tag color="warning" icon={<WarningOutlined />}>
-            PEDIR (≤ ROP)
-          </Tag>
+          <span
+            style={{
+              backgroundColor: "#fffbeb",
+              color: "#d97706",
+              border: "1px solid #fef3c7",
+              borderRadius: 9999,
+              padding: "4px 12px",
+              fontSize: 12,
+              fontWeight: 600,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <WarningOutlined style={{ fontSize: 11 }} /> REORDENAR (≤ ROP)
+          </span>
         );
       case "Optimo":
         return (
-          <Tag color="success" icon={<CheckCircleOutlined />}>
-            ÓPTIMO
-          </Tag>
+          <span
+            style={{
+              backgroundColor: "#f0fdf4",
+              color: "#16a34a",
+              border: "1px solid #dcfce7",
+              borderRadius: 9999,
+              padding: "4px 12px",
+              fontSize: 12,
+              fontWeight: 600,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <CheckCircleOutlined style={{ fontSize: 11 }} /> ÓPTIMO
+          </span>
         );
       case "Sobrestock":
-        return <Tag color="blue">SOBRESTOCK</Tag>;
+        return (
+          <span
+            style={{
+              backgroundColor: "#eff6ff",
+              color: "#2563eb",
+              border: "1px solid #dbeafe",
+              borderRadius: 9999,
+              padding: "4px 12px",
+              fontSize: 12,
+              fontWeight: 600,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            SOBRESTOCK
+          </span>
+        );
     }
   };
 
@@ -66,21 +123,23 @@ export function ReordenDashboardPage() {
       key: "nombreAlimento",
       render: (nombre: string, r: ParametrosReordenDto) => (
         <div>
-          <strong>{nombre}</strong>
-          <div style={{ fontSize: 12, color: "#888" }}>
-            {r.marca} • {r.calibreMm} mm • {r.etapaSugerida}
+          <div style={{ fontWeight: 600, color: "#0f172a" }}>{nombre}</div>
+          <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
+            <Tag color="default" style={{ borderRadius: 6, fontSize: 11, padding: "1px 6px" }}>{r.marca}</Tag>
+            <span>{r.calibreMm} mm • {r.etapaSugerida}</span>
           </div>
         </div>
       ),
     },
     {
-      title: "Stock Actual (Kg)",
+      title: "Stock Actual",
       dataIndex: "stockActualKg",
       key: "stockActualKg",
+      align: "right" as const,
       render: (kg: number, r: ParametrosReordenDto) => (
-        <div>
-          <strong>{kg.toLocaleString()} kg</strong>
-          <div style={{ fontSize: 12, color: "#888" }}>({r.stockActualSacosAprox} sacos)</div>
+        <div style={{ textAlign: "right" }}>
+          <strong style={{ fontSize: 14, color: "#0f172a" }}>{kg.toLocaleString()} kg</strong>
+          <div style={{ fontSize: 11, color: "#64748b" }}>~{r.stockActualSacosAprox} sacos (25kg)</div>
         </div>
       ),
     },
@@ -88,28 +147,40 @@ export function ReordenDashboardPage() {
       title: "Demanda Diaria (d)",
       dataIndex: "demandaDiariaPromedioKg",
       key: "demandaDiariaPromedioKg",
-      render: (d: number) => `${d.toFixed(1)} kg/día`,
+      align: "right" as const,
+      render: (d: number) => <span style={{ color: "#334155", fontWeight: 500 }}>{d.toFixed(1)} kg/d</span>,
     },
     {
       title: "Stock Seguridad (SS)",
       dataIndex: "stockSeguridadKg",
       key: "stockSeguridadKg",
-      render: (ss: number) => <Tag color="orange">{ss.toFixed(1)} kg</Tag>,
+      align: "right" as const,
+      render: (ss: number) => (
+        <span style={{ color: "#d97706", fontWeight: 600, backgroundColor: "#fffbeb", padding: "2px 8px", borderRadius: 6 }}>
+          {ss.toFixed(1)} kg
+        </span>
+      ),
     },
     {
       title: "Punto Reorden (ROP)",
       dataIndex: "puntoReordenKg",
       key: "puntoReordenKg",
-      render: (rop: number) => <strong>{rop.toFixed(1)} kg</strong>,
+      align: "right" as const,
+      render: (rop: number) => (
+        <span style={{ color: "#0f172a", fontWeight: 700, backgroundColor: "#f1f5f9", padding: "2px 8px", borderRadius: 6 }}>
+          {rop.toFixed(1)} kg
+        </span>
+      ),
     },
     {
       title: "Lote Económico (EOQ)",
       dataIndex: "cantidadEconomicaPedidoEoqKg",
       key: "cantidadEconomicaPedidoEoqKg",
+      align: "right" as const,
       render: (eoq: number, r: ParametrosReordenDto) => (
-        <div>
-          <span>{eoq.toFixed(0)} kg</span>
-          <div style={{ fontSize: 11, color: "#1677ff" }}>({r.cantidadEconomicaPedidoEoqSacos} sacos)</div>
+        <div style={{ textAlign: "right" }}>
+          <span style={{ color: "#2563eb", fontWeight: 600 }}>{eoq.toFixed(0)} kg</span>
+          <div style={{ fontSize: 11, color: "#64748b" }}>({r.cantidadEconomicaPedidoEoqSacos} sacos)</div>
         </div>
       ),
     },
@@ -117,97 +188,132 @@ export function ReordenDashboardPage() {
       title: "Estado Semáforo",
       dataIndex: "estadoStock",
       key: "estadoStock",
-      render: (e: EstadoStockReorden) => getSemaforoTag(e),
+      align: "center" as const,
+      render: (e: EstadoStockReorden) => getSemaforoPill(e),
     },
     {
       title: "Días Stock",
       dataIndex: "diasStockRestante",
       key: "diasStockRestante",
-      render: (d: number) => (
-        <span style={{ color: d <= 5 ? "#cf1322" : d <= 15 ? "#fa8c16" : "#3f8600", fontWeight: 600 }}>
-          {d} días
-        </span>
-      ),
+      align: "center" as const,
+      render: (d: number) => {
+        const bg = d <= 5 ? "#fef2f2" : d <= 15 ? "#fffbeb" : "#f0fdf4";
+        const color = d <= 5 ? "#dc2626" : d <= 15 ? "#d97706" : "#16a34a";
+        return (
+          <span style={{ backgroundColor: bg, color: color, fontWeight: 700, padding: "3px 10px", borderRadius: 9999, fontSize: 12 }}>
+            {d} días
+          </span>
+        );
+      },
     },
     {
-      title: "Sugerencia de Compra",
+      title: "Sugerencia de Pedido",
       key: "sugerencia",
       render: (_: unknown, r: ParametrosReordenDto) =>
         r.sacosSugeridosPedir > 0 ? (
           <div>
-            <Tag color="volcano" style={{ fontWeight: 600 }}>
+            <span
+              style={{
+                backgroundColor: "#fff1f2",
+                color: "#e11d48",
+                border: "1px solid #ffe4e6",
+                borderRadius: 8,
+                padding: "4px 10px",
+                fontSize: 12,
+                fontWeight: 600,
+                display: "inline-block",
+              }}
+            >
               Pedir {r.sacosSugeridosPedir} sacos ({r.cantidadSugeridaPedirKg} kg)
-            </Tag>
-            <div style={{ fontSize: 12, color: "#cf1322" }}>
-              Est. S/ {r.costoEstimadoPedido.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            </span>
+            <div style={{ fontSize: 11, color: "#64748b", marginTop: 3 }}>
+              Costo Est.: <strong>S/ {r.costoEstimadoPedido.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong>
             </div>
           </div>
         ) : (
-          <Tag color="green">Sin pedido urgente</Tag>
+          <span style={{ color: "#16a34a", fontSize: 12, fontWeight: 500, backgroundColor: "#f0fdf4", padding: "3px 8px", borderRadius: 6 }}>
+            ✓ Stock cubierto
+          </span>
         ),
     },
   ];
 
   const columnasMlProyeccion = [
     {
-      title: "Lote",
+      title: "Lote de Truchas",
       dataIndex: "codigoLote",
       key: "codigoLote",
-      render: (c: string) => <strong>{c}</strong>,
+      render: (c: string) => <strong style={{ color: "#0f172a" }}>{c}</strong>,
     },
     {
       title: "Etapa Actual",
       dataIndex: "etapaActual",
       key: "etapaActual",
-      render: (e: string) => <Tag color="blue">{e}</Tag>,
+      render: (e: string) => (
+        <span style={{ backgroundColor: "#eff6ff", color: "#1d4ed8", padding: "2px 8px", borderRadius: 6, fontSize: 12, fontWeight: 500 }}>
+          {e}
+        </span>
+      ),
     },
     {
       title: "Peces Vivos",
       dataIndex: "cantidadTotalPeces",
       key: "cantidadTotalPeces",
+      align: "right" as const,
       render: (n: number) => n.toLocaleString(),
     },
     {
-      title: "Peso Actual (g)",
+      title: "Peso Actual",
       dataIndex: "pesoActual",
       key: "pesoActual",
+      align: "right" as const,
       render: (g: number) => `${g.toFixed(1)} g`,
     },
     {
-      title: "Temp. Agua Promedio",
+      title: "Temp. Agua",
       dataIndex: "temperaturaPromedioAguaC",
       key: "temperaturaPromedioAguaC",
-      render: (t: number) => <Tag color="cyan">{t}°C</Tag>,
+      align: "center" as const,
+      render: (t: number) => (
+        <span style={{ backgroundColor: "#ecfeff", color: "#0891b2", padding: "2px 8px", borderRadius: 6, fontWeight: 600, fontSize: 12 }}>
+          {t}°C
+        </span>
+      ),
     },
     {
-      title: "TGC Aplicado",
-      dataIndex: "tgcAplicado",
-      key: "tgcAplicado",
-      render: (tgc: number) => tgc.toFixed(2),
-    },
-    {
-      title: `Peso en ${diasProyeccionMl}d (ML)`,
+      title: `Peso en ${diasProyeccionMl}d (TGC)`,
       dataIndex: "pesoProyectadoGramos",
       key: "pesoProyectadoGramos",
-      render: (p: number) => <strong style={{ color: "#1677ff" }}>{p.toFixed(1)} g</strong>,
+      align: "right" as const,
+      render: (p: number) => <strong style={{ color: "#2563eb", fontSize: 14 }}>{p.toFixed(1)} g</strong>,
     },
     {
       title: "Biomasa Proyectada",
       dataIndex: "biomasaProyectadaKg",
       key: "biomasaProyectadaKg",
+      align: "right" as const,
       render: (b: number) => `${b.toLocaleString()} kg`,
     },
     {
-      title: "Ración Requerida (Kg)",
+      title: "Ración Prevista (Kg)",
       dataIndex: "racionEstimadaKg",
       key: "racionEstimadaKg",
-      render: (r: number) => <strong style={{ color: "#3f8600" }}>{r.toLocaleString()} kg</strong>,
+      align: "right" as const,
+      render: (r: number) => (
+        <span style={{ color: "#16a34a", fontWeight: 700, backgroundColor: "#f0fdf4", padding: "3px 10px", borderRadius: 6 }}>
+          {r.toLocaleString()} kg
+        </span>
+      ),
     },
     {
-      title: "Calibre Pellet Sugerido",
+      title: "Pellet Sugerido",
       dataIndex: "calibreRecomendadoMm",
       key: "calibreRecomendadoMm",
-      render: (c: string) => <Tag color="purple">{c}</Tag>,
+      render: (c: string) => (
+        <span style={{ backgroundColor: "#faf5ff", color: "#7e22ce", padding: "2px 8px", borderRadius: 6, fontSize: 12, fontWeight: 500 }}>
+          {c}
+        </span>
+      ),
     },
   ];
 
@@ -216,48 +322,55 @@ export function ReordenDashboardPage() {
       title: "Parámetro Biométrico / Zootécnico",
       dataIndex: "parametro",
       key: "parametro",
-      render: (p: string) => <strong>{p}</strong>,
+      render: (p: string) => <strong style={{ color: "#0f172a" }}>{p}</strong>,
     },
     {
-      title: "Media A Priori (μ₀ / α₀)",
+      title: "A Priori (FONDEPES μ₀)",
       dataIndex: "mediaPrior",
       key: "mediaPrior",
+      align: "right" as const,
       render: (m: number) => m.toFixed(3),
     },
     {
-      title: "Promedio Observado (x̄)",
+      title: "Observado Sierra Nevada (x̄)",
       dataIndex: "promedioObservado",
       key: "promedioObservado",
+      align: "right" as const,
       render: (obs: number) => `${obs.toFixed(3)}`,
     },
     {
-      title: "N° Muestras (n)",
+      title: "Muestras (n)",
       dataIndex: "muestras",
       key: "muestras",
+      align: "right" as const,
       render: (n: number) => `${n} mediciones`,
     },
     {
-      title: "Media Calibrada A Posteriori (μ_post)",
+      title: "A Posteriori Calibrado (μ_post)",
       dataIndex: "mediaPosterior",
       key: "mediaPosterior",
+      align: "right" as const,
       render: (post: number) => (
-        <strong style={{ color: "#1677ff", fontSize: 15 }}>{post.toFixed(3)}</strong>
+        <span style={{ color: "#2563eb", fontWeight: 700, fontSize: 14, backgroundColor: "#eff6ff", padding: "3px 10px", borderRadius: 6 }}>
+          {post.toFixed(3)}
+        </span>
       ),
     },
     {
-      title: "Intervalo de Confianza 95%",
+      title: "Intervalo Confianza 95%",
       key: "ic95",
+      align: "center" as const,
       render: (_: unknown, r: ActualizacionBayesianaDto) => (
-        <Tag color="geekblue">
+        <span style={{ backgroundColor: "#f1f5f9", color: "#334155", padding: "2px 8px", borderRadius: 6, fontSize: 12, fontFamily: "monospace" }}>
           [{r.limiteInferior95.toFixed(3)} - {r.limiteSuperior95.toFixed(3)}]
-        </Tag>
+        </span>
       ),
     },
     {
-      title: "Modelo Estadístico y Justificación",
+      title: "Modelo Estadístico",
       dataIndex: "interpretacion",
       key: "interpretacion",
-      render: (t: string) => <span style={{ fontSize: 13, color: "#555" }}>{t}</span>,
+      render: (t: string) => <span style={{ fontSize: 12, color: "#64748b" }}>{t}</span>,
     },
   ];
 
@@ -265,53 +378,77 @@ export function ReordenDashboardPage() {
     <Space direction="vertical" size="large" style={{ width: "100%" }}>
       <PageHeader
         title="Planificación de Reorden y Predicción de Demanda (ML)"
-        subtitle="Optimización de inventario con Punto de Reorden (ROP), Stock de Seguridad (SS), Lote Económico (EOQ) y Coeficiente Térmico (TGC)"
+        subtitle="Optimización de compras con Punto de Reorden (ROP), Stock de Seguridad (SS), Lote Económico (EOQ) y Coeficiente Térmico (TGC)"
       />
 
+      {/* KPI Metric Cards */}
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic
-              title="Alimentos en Estado Crítico"
-              value={plan?.totalCriticos ?? 0}
-              valueStyle={{ color: "#cf1322" }}
-              prefix={<AlertOutlined />}
-              suffix="calibres"
-            />
-          </Card>
+          <div className="sn-metric-box" style={{ borderTop: "3px solid #dc2626" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Alimentos Críticos</span>
+              <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", color: "#dc2626" }}>
+                <AlertOutlined />
+              </div>
+            </div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: "#0f172a" }}>
+              {plan?.totalCriticos ?? 0} <span style={{ fontSize: 13, fontWeight: 500, color: "#64748b" }}>calibres</span>
+            </div>
+            <div style={{ fontSize: 12, color: "#dc2626", marginTop: 4 }}>
+              Stock ≤ Stock de Seguridad
+            </div>
+          </div>
         </Col>
+
         <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic
-              title="Alimentos en Punto de Reorden"
-              value={plan?.totalEnReorden ?? 0}
-              valueStyle={{ color: "#fa8c16" }}
-              prefix={<WarningOutlined />}
-              suffix="calibres"
-            />
-          </Card>
+          <div className="sn-metric-box" style={{ borderTop: "3px solid #d97706" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>En Punto de Reorden</span>
+              <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#fffbeb", display: "flex", alignItems: "center", justifyContent: "center", color: "#d97706" }}>
+                <WarningOutlined />
+              </div>
+            </div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: "#0f172a" }}>
+              {plan?.totalEnReorden ?? 0} <span style={{ fontSize: 13, fontWeight: 500, color: "#64748b" }}>calibres</span>
+            </div>
+            <div style={{ fontSize: 12, color: "#d97706", marginTop: 4 }}>
+              Stock ≤ Punto de Reorden (ROP)
+            </div>
+          </div>
         </Col>
+
         <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic
-              title="Alimentos en Nivel Óptimo"
-              value={plan?.totalOptimos ?? 0}
-              valueStyle={{ color: "#3f8600" }}
-              prefix={<CheckCircleOutlined />}
-              suffix="calibres"
-            />
-          </Card>
+          <div className="sn-metric-box" style={{ borderTop: "3px solid #16a34a" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>En Nivel Óptimo</span>
+              <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", color: "#16a34a" }}>
+                <CheckCircleOutlined />
+              </div>
+            </div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: "#0f172a" }}>
+              {plan?.totalOptimos ?? 0} <span style={{ fontSize: 13, fontWeight: 500, color: "#64748b" }}>calibres</span>
+            </div>
+            <div style={{ fontSize: 12, color: "#16a34a", marginTop: 4 }}>
+              Nivel de servicio garantizado
+            </div>
+          </div>
         </Col>
+
         <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic
-              title="Inversión Sugerida de Compra"
-              value={plan?.inversionSugeridaTotal ?? 0}
-              precision={2}
-              valueStyle={{ color: "#1677ff" }}
-              prefix="S/"
-            />
-          </Card>
+          <div className="sn-metric-box" style={{ borderTop: "3px solid #2563eb" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+              <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Inversión Sugerida</span>
+              <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", color: "#2563eb" }}>
+                <DollarOutlined />
+              </div>
+            </div>
+            <div style={{ fontSize: 24, fontWeight: 700, color: "#0f172a" }}>
+              S/ {(plan?.inversionSugeridaTotal ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+            <div style={{ fontSize: 12, color: "#2563eb", marginTop: 4 }}>
+              Cálculo óptimo por Wilson (EOQ)
+            </div>
+          </div>
         </Col>
       </Row>
 
@@ -321,26 +458,25 @@ export function ReordenDashboardPage() {
           {
             key: "reorden",
             label: (
-              <span>
-                <DashboardOutlined />
-                Matriz de Optimización de Reorden (ROP / SS / EOQ)
+              <span style={{ fontWeight: 600, fontSize: 14 }}>
+                <DashboardOutlined /> Matriz de Optimización de Reorden (ROP / SS / EOQ)
               </span>
             ),
             children: (
               <Card
-                title="Monitoreo de Parámetros de Inventario por Tipo de Alimento"
+                title="Monitoreo y Alertas de Stock de Alimento Balanceado"
                 extra={
                   <Space>
-                    <span>Nivel de Servicio (Z):</span>
+                    <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Nivel de Servicio (Z):</span>
                     <Select
                       value={nivelZ}
                       onChange={(val) => setNivelZ(val)}
                       options={[
-                        { value: 1.65, label: "95% (Z = 1.65)" },
-                        { value: 1.96, label: "97.5% (Z = 1.96)" },
-                        { value: 2.33, label: "99% (Z = 2.33)" },
+                        { value: 1.65, label: "95% de confianza (Z = 1.65)" },
+                        { value: 1.96, label: "97.5% de confianza (Z = 1.96)" },
+                        { value: 2.33, label: "99% de confianza (Z = 2.33)" },
                       ]}
-                      style={{ width: 150 }}
+                      style={{ width: 210 }}
                     />
                   </Space>
                 }
@@ -348,9 +484,10 @@ export function ReordenDashboardPage() {
                 <Alert
                   type="info"
                   showIcon
-                  message="Fórmulas zootécnicas y logísticas aplicadas"
-                  description="Punto de Reorden: ROP = (d × L) + SS | Stock de Seguridad: SS = Z × σ_d × √L | Cantidad Económica: EOQ = √(2·D·S / H)"
-                  style={{ marginBottom: 16 }}
+                  icon={<InfoCircleOutlined style={{ color: "#2563eb" }} />}
+                  message="Modelo Matemático y Logístico Aplicado (Objetivo Específico #2 de la Tesis)"
+                  description="Punto de Reorden: ROP = (d × L) + SS  |  Stock de Seguridad: SS = Z × σ_d × √L  |  Lote Económico de Compra: EOQ = √(2·D·S / H)"
+                  style={{ marginBottom: 20, borderRadius: 10, backgroundColor: "#eff6ff", borderColor: "#bfdbfe" }}
                 />
 
                 <Table<ParametrosReordenDto>
@@ -366,9 +503,8 @@ export function ReordenDashboardPage() {
           {
             key: "ml",
             label: (
-              <span>
-                <RobotOutlined />
-                Motor Adaptativo de Machine Learning (TGC & Bayes)
+              <span style={{ fontWeight: 600, fontSize: 14 }}>
+                <RobotOutlined /> Motor Adaptativo de Machine Learning (TGC & Bayes)
               </span>
             ),
             children: (
@@ -377,17 +513,17 @@ export function ReordenDashboardPage() {
                   title="Predicción de Crecimiento Térmico y Demanda de Alimento (TGC Grados-Día)"
                   extra={
                     <Space>
-                      <span>Horizonte de Predicción:</span>
+                      <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>Horizonte:</span>
                       <Select
                         value={diasProyeccionMl}
                         onChange={(val) => setDiasProyeccionMl(val)}
                         options={[
-                          { value: 15, label: "15 días" },
+                          { value: 15, label: "15 días futuros" },
                           { value: 30, label: "30 días (1 mes)" },
                           { value: 60, label: "60 días (2 meses)" },
                           { value: 90, label: "90 días (3 meses)" },
                         ]}
-                        style={{ width: 160 }}
+                        style={{ width: 170 }}
                       />
                     </Space>
                   }
@@ -395,9 +531,9 @@ export function ReordenDashboardPage() {
                   <Alert
                     type="success"
                     showIcon
-                    message="Modelo Grados-Día (TGC): W_f^(1/3) = W_i^(1/3) + (TGC × Σ T / 1000)"
-                    description="Calcula el crecimiento exponencial dependiente de la temperatura real del agua y pronostica el volumen exacto de pellet a requerir."
-                    style={{ marginBottom: 16 }}
+                    message="Modelo Grados-Día Térmico: W_f^(1/3) = W_i^(1/3) + (TGC × Σ T / 1000)"
+                    description="Pronostica la ganancia de peso y ración requerida ajustada por la temperatura diaria del agua en piscigranja andina."
+                    style={{ marginBottom: 20, borderRadius: 10, backgroundColor: "#f0fdf4", borderColor: "#bbf7d0" }}
                   />
 
                   <Table<ProyeccionTgcDto>
@@ -409,13 +545,13 @@ export function ReordenDashboardPage() {
                   />
                 </Card>
 
-                <Card title="Auto-Calibración Bayesiana de Parámetros entre Campañas">
+                <Card title="Auto-Calibración Bayesiana de Parámetros Inter-Campaña">
                   <Alert
                     type="info"
                     showIcon
                     message="Actualización Bayesiana Conjugada: Normal-Normal para variables continuas y Beta-Binomial para tasas"
-                    description="El sistema combina el conocimiento estándar previo (FONDEPES) con los datos reales observados de Sierra Nevada, evitando sobreajuste con muestras pequeñas."
-                    style={{ marginBottom: 16 }}
+                    description="Permite que el sistema aprenda campaña tras campaña sin sobreajuste con muestras pequeñas, convergiendo progresivamente al comportamiento real de Sierra Nevada."
+                    style={{ marginBottom: 20, borderRadius: 10, backgroundColor: "#eff6ff", borderColor: "#bfdbfe" }}
                   />
 
                   <Table<ActualizacionBayesianaDto>

@@ -1,38 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-  color-scheme: light;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-app: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-subtle: #e2e8f0;
+  --border-input: #cbd5e1;
+  --primary-blue: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-modal: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
 * {
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
   min-height: 100vh;
 }
 
-/* Colapsables de Unidades — que se vean como filas de una misma tarjeta blanca,
-   no como los paneles grises por defecto de AntD (pedido explícito: "muy distinto
-   al resto"). */
+/* Scrollbar moderno y sutil */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Refinamiento general para Ant Design Cards */
+.ant-card {
+  border-radius: 12px !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: var(--shadow-card) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.ant-card-hoverable:hover {
+  box-shadow: var(--shadow-card-hover) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid var(--border-subtle) !important;
+  padding: 0 20px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-card-body {
+  padding: 20px !important;
+}
+
+/* Refinamiento para Tablas de Ant Design */
+.ant-table-wrapper .ant-table {
+  border-radius: 10px !important;
+  font-size: 13.5px !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th {
+  background: #f8fafc !important;
+  color: var(--text-secondary) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.03em !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  padding: 12px 16px !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 14px 16px !important;
+  transition: background 0.15s ease !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background-color: #f8fafc !important;
+}
+
+/* Refinamiento para Botones */
+.ant-btn {
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.ant-btn-primary {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%) !important;
+  border: none !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 2px 4px 0 rgba(37, 99, 235, 0.25) !important;
+}
+
+.ant-btn-primary:hover {
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px 0 rgba(37, 99, 235, 0.3) !important;
+}
+
+.ant-btn-primary:active {
+  transform: translateY(0);
+}
+
+.ant-btn-default {
+  border-color: var(--border-input) !important;
+  color: var(--text-secondary) !important;
+}
+
+.ant-btn-default:hover {
+  border-color: #94a3b8 !important;
+  color: var(--text-primary) !important;
+  background-color: #f8fafc !important;
+}
+
+/* Refinamiento para Inputs y Selects */
+.ant-input,
+.ant-input-number,
+.ant-select-selector,
+.ant-picker {
+  border-radius: 8px !important;
+  border-color: var(--border-input) !important;
+  font-size: 13.5px !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.ant-input:hover,
+.ant-input-number:hover,
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector,
+.ant-picker:hover {
+  border-color: #94a3b8 !important;
+}
+
+.ant-input:focus,
+.ant-input-focused,
+.ant-input-number-focused,
+.ant-select-focused .ant-select-selector,
+.ant-picker-focused {
+  border-color: var(--primary-blue) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+}
+
+/* Refinamiento para Labels de Formularios */
+.ant-form-item-label > label {
+  font-weight: 500 !important;
+  color: var(--text-primary) !important;
+  font-size: 13px !important;
+}
+
+/* Soft Badges y Pills */
+.ant-tag {
+  border-radius: 9999px !important;
+  padding: 3px 10px !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  border: none !important;
+  line-height: 1.4 !important;
+}
+
+/* Modales con sombras suaves y esquinas elegantes */
+.ant-modal-content {
+  border-radius: 16px !important;
+  box-shadow: var(--shadow-modal) !important;
+  padding: 24px !important;
+}
+
+.ant-modal-header {
+  margin-bottom: 16px !important;
+}
+
+.ant-modal-title {
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Colapsables de Unidades */
 .sn-collapse-unidades .ant-collapse-item {
-  border-bottom: 1px solid #e7e9ee;
+  border-bottom: 1px solid var(--border-subtle);
 }
 .sn-collapse-unidades .ant-collapse-item:last-child {
   border-bottom: none;
 }
 .sn-collapse-unidades .ant-collapse-header {
   padding: 16px 20px !important;
+  font-weight: 500;
 }
 .sn-collapse-unidades .ant-collapse-content-box {
   padding: 0 20px 16px !important;
 }
 
-/* Filas de acciones dentro de una tarjeta (LoteDetailPage) — feedback de hover, ya que son
-   divs clicables, no botones nativos. */
+/* Filas de acciones */
+.sn-accion-row {
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
 .sn-accion-row:hover {
-  background: #f7f8fa;
+  background: var(--bg-app);
+}
+
+/* Micro-animaciones para números e indicadores */
+.sn-metric-box {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s ease;
+}
+.sn-metric-box:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: #cbd5e1;
 }

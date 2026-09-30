@@ -13,22 +13,53 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle, backTo, backLabel = "Volver", extra }: PageHeaderProps) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, gap: 16, flexWrap: "wrap" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: 24,
+        gap: 16,
+        flexWrap: "wrap",
+      }}
+    >
       <div>
         {backTo && (
           <Link
             to={backTo}
-            style={{ fontSize: 13, display: "inline-flex", alignItems: "center", gap: 4, marginBottom: 6, color: "#8a8f99" }}
+            style={{
+              fontSize: 13,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              marginBottom: 8,
+              color: "#64748b",
+              fontWeight: 500,
+              textDecoration: "none",
+            }}
           >
-            <ArrowLeftOutlined /> {backLabel}
+            <ArrowLeftOutlined style={{ fontSize: 12 }} /> {backLabel}
           </Link>
         )}
-        <Typography.Title level={3} style={{ margin: 0 }}>
+        <Typography.Title
+          level={3}
+          style={{
+            margin: 0,
+            color: "#0f172a",
+            fontWeight: 700,
+            letterSpacing: "-0.02em",
+            fontSize: 22,
+          }}
+        >
           {title}
         </Typography.Title>
-        {subtitle && <Typography.Text type="secondary">{subtitle}</Typography.Text>}
+        {subtitle && (
+          <div style={{ color: "#64748b", fontSize: 13.5, marginTop: 4, fontWeight: 400 }}>
+            {subtitle}
+          </div>
+        )}
       </div>
-      {extra}
+      {extra && <div style={{ display: "flex", alignItems: "center", gap: 12 }}>{extra}</div>}
     </div>
   );
 }

@@ -7,13 +7,11 @@ import {
 import {
   Button,
   Card,
-  Col,
   DatePicker,
   Form,
   Input,
   InputNumber,
   Modal,
-  Row,
   Select,
   Space,
   Table,
@@ -73,25 +71,64 @@ export function KardexAlimentoPage() {
     }
   };
 
-  const getTipoTag = (tipo: TipoMovimientoKardex) => {
+  const getTipoPill = (tipo: TipoMovimientoKardex) => {
     switch (tipo) {
       case "IngresoCompra":
         return (
-          <Tag color="green" icon={<ArrowDownOutlined />}>
-            INGRESO COMPRA
-          </Tag>
+          <span
+            style={{
+              backgroundColor: "#f0fdf4",
+              color: "#16a34a",
+              border: "1px solid #dcfce7",
+              borderRadius: 9999,
+              padding: "3px 10px",
+              fontSize: 12,
+              fontWeight: 600,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <ArrowDownOutlined style={{ fontSize: 10 }} /> INGRESO COMPRA
+          </span>
         );
       case "EgresoAlimentacion":
         return (
-          <Tag color="blue" icon={<ArrowUpOutlined />}>
-            ALIMENTACIÓN PEZ
-          </Tag>
+          <span
+            style={{
+              backgroundColor: "#eff6ff",
+              color: "#2563eb",
+              border: "1px solid #dbeafe",
+              borderRadius: 9999,
+              padding: "3px 10px",
+              fontSize: 12,
+              fontWeight: 600,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <ArrowUpOutlined style={{ fontSize: 10 }} /> ALIMENTACIÓN PEZ
+          </span>
         );
       case "AjusteMerma":
         return (
-          <Tag color="volcano" icon={<MinusCircleOutlined />}>
-            MERMA / AJUSTE
-          </Tag>
+          <span
+            style={{
+              backgroundColor: "#fef2f2",
+              color: "#dc2626",
+              border: "1px solid #fee2e2",
+              borderRadius: 9999,
+              padding: "3px 10px",
+              fontSize: 12,
+              fontWeight: 600,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <MinusCircleOutlined style={{ fontSize: 10 }} /> MERMA / AJUSTE
+          </span>
         );
       default:
         return <Tag color="default">{tipo}</Tag>;
@@ -100,16 +137,21 @@ export function KardexAlimentoPage() {
 
   const columns = [
     {
-      title: "Fecha",
+      title: "Fecha & Hora",
       dataIndex: "fechaMovimiento",
       key: "fechaMovimiento",
-      render: (f: string) => dayjs(f).format("YYYY-MM-DD HH:mm"),
+      render: (f: string) => (
+        <div>
+          <div style={{ fontWeight: 600, color: "#0f172a" }}>{dayjs(f).format("YYYY-MM-DD")}</div>
+          <div style={{ fontSize: 11, color: "#64748b" }}>{dayjs(f).format("HH:mm:ss")}</div>
+        </div>
+      ),
     },
     {
       title: "Tipo Movimiento",
       dataIndex: "tipoMovimiento",
       key: "tipoMovimiento",
-      render: (t: TipoMovimientoKardex) => getTipoTag(t),
+      render: (t: TipoMovimientoKardex) => getTipoPill(t),
     },
     {
       title: "Alimento",
@@ -117,48 +159,73 @@ export function KardexAlimentoPage() {
       key: "tipoAlimentoId",
       render: (id: number) => {
         const t = tipos?.find((x) => x.id === id);
-        return t ? `${t.nombre} (${t.marca})` : `ID ${id}`;
+        return t ? (
+          <div>
+            <span style={{ fontWeight: 600, color: "#0f172a" }}>{t.nombre}</span>
+            <span style={{ fontSize: 12, color: "#64748b", marginLeft: 6 }}>({t.marca})</span>
+          </div>
+        ) : (
+          `ID ${id}`
+        );
       },
     },
     {
       title: "Cantidad (Kg)",
       dataIndex: "cantidadKg",
       key: "cantidadKg",
+      align: "right" as const,
       render: (kg: number) => (
-        <span style={{ color: kg > 0 ? "#3f8600" : "#cf1322", fontWeight: 600 }}>
+        <span
+          style={{
+            color: kg > 0 ? "#16a34a" : "#dc2626",
+            fontWeight: 700,
+            fontSize: 13.5,
+            backgroundColor: kg > 0 ? "#f0fdf4" : "#fef2f2",
+            padding: "2px 8px",
+            borderRadius: 6,
+          }}
+        >
           {kg > 0 ? `+${kg.toLocaleString()} kg` : `${kg.toLocaleString()} kg`}
         </span>
       ),
     },
     {
-      title: "Costo Unit. (S/)",
+      title: "Costo Unit.",
       dataIndex: "costoUnitarioKg",
       key: "costoUnitarioKg",
+      align: "right" as const,
       render: (c: number) => `S/ ${c.toFixed(2)}`,
     },
     {
-      title: "Costo Total (S/)",
+      title: "Costo Total",
       dataIndex: "costoTotal",
       key: "costoTotal",
+      align: "right" as const,
       render: (c: number) => `S/ ${c.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
     },
     {
-      title: "Saldo Stock (Kg)",
+      title: "Saldo Stock",
       dataIndex: "saldoStockKg",
       key: "saldoStockKg",
-      render: (s: number) => <strong>{s.toLocaleString()} kg</strong>,
+      align: "right" as const,
+      render: (s: number) => <strong style={{ color: "#0f172a", fontSize: 13.5 }}>{s.toLocaleString()} kg</strong>,
     },
     {
-      title: "Saldo Valorizado (S/)",
+      title: "Saldo Valorizado",
       dataIndex: "saldoValorizado",
       key: "saldoValorizado",
-      render: (v: number) => <strong>S/ {v.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong>,
+      align: "right" as const,
+      render: (v: number) => (
+        <strong style={{ color: "#2563eb", fontSize: 13.5 }}>
+          S/ {v.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+        </strong>
+      ),
     },
     {
       title: "Observaciones",
       dataIndex: "observaciones",
       key: "observaciones",
-      render: (obs: string | null) => obs ?? "-",
+      render: (obs: string | null) => obs ? <span style={{ color: "#475569", fontSize: 12.5 }}>{obs}</span> : <span style={{ color: "#94a3b8" }}>—</span>,
     },
   ];
 
@@ -173,6 +240,7 @@ export function KardexAlimentoPage() {
             danger
             icon={<MinusCircleOutlined />}
             onClick={() => setModalEgresoAbierto(true)}
+            style={{ borderRadius: 8 }}
           >
             Registrar Salida / Merma
           </Button>
@@ -180,25 +248,37 @@ export function KardexAlimentoPage() {
       />
 
       <Card>
-        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-          <Col xs={24} sm={12} md={8}>
-            <Space style={{ width: "100%" }}>
-              <FilterOutlined />
-              <Select
-                placeholder="Filtrar por tipo de alimento"
-                allowClear
-                style={{ width: 260 }}
-                value={tipoSeleccionado}
-                onChange={(val) => setTipoSeleccionado(val)}
-                options={tipos?.map((t) => ({
-                  value: t.id,
-                  label: `${t.nombre} (${t.calibreMm} mm)`,
-                }))}
-              />
-            </Space>
-          </Col>
-          <Col xs={24} sm={12} md={8}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 16,
+            marginBottom: 20,
+            padding: "12px 16px",
+            backgroundColor: "#f8fafc",
+            borderRadius: 10,
+            border: "1px solid #e2e8f0",
+          }}
+        >
+          <Space size="middle" wrap>
+            <span style={{ fontSize: 13, color: "#475569", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+              <FilterOutlined style={{ color: "#2563eb" }} /> Filtros:
+            </span>
+            <Select
+              placeholder="Filtrar por tipo de alimento"
+              allowClear
+              style={{ width: 280 }}
+              value={tipoSeleccionado}
+              onChange={(val) => setTipoSeleccionado(val)}
+              options={tipos?.map((t) => ({
+                value: t.id,
+                label: `${t.nombre} (${t.marca} - ${t.calibreMm} mm)`,
+              }))}
+            />
             <DatePicker.RangePicker
+              placeholder={["Desde fecha", "Hasta fecha"]}
               onChange={(dates) => {
                 if (dates && dates[0] && dates[1]) {
                   setRangoFechas([
@@ -210,8 +290,12 @@ export function KardexAlimentoPage() {
                 }
               }}
             />
-          </Col>
-        </Row>
+          </Space>
+
+          <span style={{ fontSize: 12, color: "#64748b" }}>
+            Total registros: <strong>{movimientos?.length ?? 0}</strong>
+          </span>
+        </div>
 
         <Table<KardexMovimiento>
           columns={columns}
@@ -228,12 +312,13 @@ export function KardexAlimentoPage() {
         onCancel={() => setModalEgresoAbierto(false)}
         onOk={() => formEgreso.submit()}
         confirmLoading={registrarEgreso.isPending}
+        width={520}
       >
         <Form form={formEgreso} layout="vertical" onFinish={handleEgreso}>
           <Form.Item
             name="loteAlimentoId"
             label="Lote de Alimento en Almacén"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: "Selecciona el lote disponible" }]}
           >
             <Select
               placeholder="Seleccionar lote de almacén disponible"
@@ -241,7 +326,7 @@ export function KardexAlimentoPage() {
                 const tipo = tipos?.find((t) => t.id === l.tipoAlimentoId);
                 return {
                   value: l.id,
-                  label: `${tipo?.nombre ?? "Alimento"} | Lote Fab: ${l.codigoLoteFabrica} (Disp: ${l.stockKgActual} kg | Vence: ${l.fechaVencimiento})`,
+                  label: `${tipo?.nombre ?? "Alimento"} | Lote: ${l.codigoLoteFabrica} (Disp: ${l.stockKgActual} kg | Vence: ${l.fechaVencimiento})`,
                 };
               })}
             />
@@ -265,13 +350,13 @@ export function KardexAlimentoPage() {
           <Form.Item
             name="cantidadKg"
             label="Cantidad a Egresar (Kg)"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: "Ingresa los kilos a egresar" }]}
           >
-            <InputNumber min={0.5} step={0.5} style={{ width: "100%" }} />
+            <InputNumber min={0.5} step={0.5} style={{ width: "100%" }} placeholder="Ej. 50.0" />
           </Form.Item>
 
           <Form.Item name="observaciones" label="Observaciones">
-            <Input.TextArea rows={2} placeholder="Indica el estanque de destino o motivo" />
+            <Input.TextArea rows={2} placeholder="Indica el estanque de destino o motivo del ajuste" />
           </Form.Item>
         </Form>
       </Modal>

@@ -11,7 +11,6 @@ import {
   Select,
   Space,
   Table,
-  Tag,
   message,
 } from "antd";
 import dayjs from "dayjs";
@@ -31,8 +30,8 @@ export function RecepcionAlimentoPage() {
   const { data: lotes, isLoading: cargandoLotes } = useLotesAlimento();
   const registrarIngreso = useRegistrarIngresoAlimento();
   const [form] = Form.useForm();
-  const [calculoTotalKg, setCalculoTotalKg] = useState(0);
-  const [calculoCostoTotal, setCalculoCostoTotal] = useState(0);
+  const [calculoTotalKg, setCalculoTotalKg] = useState(1000);
+  const [calculoCostoTotal, setCalculoCostoTotal] = useState(6500);
 
   const actualizarTotales = () => {
     const sacos = form.getFieldValue("cantidadSacos") || 0;
@@ -82,7 +81,7 @@ export function RecepcionAlimentoPage() {
       title: "Lote Fábrica",
       dataIndex: "codigoLoteFabrica",
       key: "codigoLoteFabrica",
-      render: (text: string) => <strong>{text}</strong>,
+      render: (text: string) => <strong style={{ color: "#0f172a" }}>{text}</strong>,
     },
     {
       title: "Alimento",
@@ -90,7 +89,14 @@ export function RecepcionAlimentoPage() {
       key: "tipoAlimentoId",
       render: (id: number) => {
         const t = tipos?.find((x) => x.id === id);
-        return t ? `${t.nombre} (${t.marca})` : `ID ${id}`;
+        return t ? (
+          <div>
+            <div style={{ fontWeight: 600, color: "#0f172a" }}>{t.nombre}</div>
+            <div style={{ fontSize: 11, color: "#64748b" }}>{t.marca} • {t.calibreMm} mm</div>
+          </div>
+        ) : (
+          `ID ${id}`
+        );
       },
     },
     {
@@ -99,7 +105,7 @@ export function RecepcionAlimentoPage() {
       key: "proveedorId",
       render: (id: number) => {
         const p = proveedores?.find((x) => x.id === id);
-        return p?.razonSocial ?? `ID ${id}`;
+        return <span style={{ color: "#334155" }}>{p?.razonSocial ?? `ID ${id}`}</span>;
       },
     },
     {
@@ -109,32 +115,42 @@ export function RecepcionAlimentoPage() {
       render: (f: string) => {
         const venc = dayjs(f);
         const dias = venc.diff(dayjs(), "day");
-        const color = dias < 30 ? "red" : dias < 60 ? "orange" : "green";
+        const bg = dias < 30 ? "#fef2f2" : dias < 60 ? "#fffbeb" : "#f0fdf4";
+        const color = dias < 30 ? "#dc2626" : dias < 60 ? "#d97706" : "#16a34a";
         return (
-          <Space>
-            <span>{f}</span>
-            <Tag color={color}>{dias} días</Tag>
+          <Space size="small">
+            <span style={{ fontSize: 12.5, color: "#0f172a" }}>{f}</span>
+            <span style={{ backgroundColor: bg, color: color, fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 9999 }}>
+              {dias}d
+            </span>
           </Space>
         );
       },
     },
     {
-      title: "Sacos Actuales",
+      title: "Sacos",
       dataIndex: "cantidadSacosActuales",
       key: "cantidadSacosActuales",
-      render: (s: number, r: LoteAlimento) => `${s} / ${r.cantidadSacosIngresados} sacos`,
+      align: "right" as const,
+      render: (s: number, r: LoteAlimento) => (
+        <span style={{ color: "#334155", fontWeight: 500 }}>
+          {s} / {r.cantidadSacosIngresados} sacos
+        </span>
+      ),
     },
     {
-      title: "Stock Actual (Kg)",
+      title: "Stock Actual",
       dataIndex: "stockKgActual",
       key: "stockKgActual",
-      render: (kg: number) => <strong>{kg.toLocaleString()} kg</strong>,
+      align: "right" as const,
+      render: (kg: number) => <strong style={{ color: "#0f172a", fontSize: 13.5 }}>{kg.toLocaleString()} kg</strong>,
     },
     {
       title: "Precio / Kg",
       dataIndex: "precioUnitarioKg",
       key: "precioUnitarioKg",
-      render: (p: number) => `S/ ${p.toFixed(2)}`,
+      align: "right" as const,
+      render: (p: number) => <span style={{ color: "#2563eb", fontWeight: 600 }}>S/ {p.toFixed(2)}</span>,
     },
   ];
 
@@ -145,9 +161,18 @@ export function RecepcionAlimentoPage() {
         subtitle="Ingreso de compras, registro de lotes de fábrica, fecha de caducidad y actualización de Kardex"
       />
 
-      <Row gutter={[16, 16]}>
+      <Row gutter={[20, 20]}>
         <Col xs={24} lg={10}>
-          <Card title={<Space><InboxOutlined /><span>Formulario de Ingreso de Compra</span></Space>}>
+          <Card
+            title={
+              <Space>
+                <div style={{ width: 28, height: 28, borderRadius: 8, backgroundColor: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", color: "#2563eb" }}>
+                  <InboxOutlined />
+                </div>
+                <span>Registrar Entrada de Compra</span>
+              </Space>
+            }
+          >
             <Form
               form={form}
               layout="vertical"
@@ -159,7 +184,7 @@ export function RecepcionAlimentoPage() {
                 precioUnitarioKg: 6.5,
               }}
             >
-              <Form.Item name="tipoAlimentoId" label="Tipo de Alimento" rules={[{ required: true }]}>
+              <Form.Item name="tipoAlimentoId" label="Tipo de Alimento" rules={[{ required: true, message: "Selecciona el alimento" }]}>
                 <Select
                   placeholder="Selecciona el tipo de alimento"
                   options={tipos?.map((t) => ({
@@ -169,7 +194,7 @@ export function RecepcionAlimentoPage() {
                 />
               </Form.Item>
 
-              <Form.Item name="proveedorId" label="Proveedor" rules={[{ required: true }]}>
+              <Form.Item name="proveedorId" label="Proveedor" rules={[{ required: true, message: "Selecciona el proveedor" }]}>
                 <Select
                   placeholder="Selecciona el proveedor"
                   options={proveedores?.map((p) => ({
@@ -181,8 +206,8 @@ export function RecepcionAlimentoPage() {
 
               <Form.Item
                 name="codigoLoteFabrica"
-                label="Código / Número de Lote del Fabricante"
-                rules={[{ required: true }]}
+                label="Código / Lote del Fabricante"
+                rules={[{ required: true, message: "Ingresa el lote del saco" }]}
               >
                 <Input placeholder="Ej. LOT-NICO-2026-09A" />
               </Form.Item>
@@ -190,16 +215,16 @@ export function RecepcionAlimentoPage() {
               <Row gutter={12}>
                 <Col span={12}>
                   <Form.Item name="fechaFabricacion" label="Fecha Fabricación">
-                    <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+                    <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" placeholder="Seleccionar" />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item
                     name="fechaVencimiento"
                     label="Fecha Caducidad"
-                    rules={[{ required: true }]}
+                    rules={[{ required: true, message: "Selecciona la fecha de vencimiento" }]}
                   >
-                    <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+                    <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" placeholder="Seleccionar" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -222,12 +247,28 @@ export function RecepcionAlimentoPage() {
                 </Col>
               </Row>
 
-              <Card size="small" style={{ marginBottom: 16, backgroundColor: "#f6ffed", borderColor: "#b7eb8f" }}>
-                <Row justify="space-between">
-                  <Col><strong>Total Peso Ingresado:</strong> {calculoTotalKg.toLocaleString()} kg</Col>
-                  <Col><strong>Total Valorizado:</strong> S/ {calculoCostoTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</Col>
+              <div
+                style={{
+                  marginBottom: 20,
+                  padding: "14px 16px",
+                  backgroundColor: "#f0fdf4",
+                  border: "1px solid #bbf7d0",
+                  borderRadius: 10,
+                }}
+              >
+                <Row justify="space-between" align="middle">
+                  <Col>
+                    <div style={{ fontSize: 11, color: "#15803d", fontWeight: 600, textTransform: "uppercase" }}>Total Ingreso</div>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: "#166534" }}>{calculoTotalKg.toLocaleString()} kg</div>
+                  </Col>
+                  <Col style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: 11, color: "#15803d", fontWeight: 600, textTransform: "uppercase" }}>Valorizado</div>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: "#166534" }}>
+                      S/ {calculoCostoTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    </div>
+                  </Col>
                 </Row>
-              </Card>
+              </div>
 
               <Form.Item name="observaciones" label="Observaciones / N° Guía / Factura">
                 <Input.TextArea rows={2} placeholder="N° de Guía de Remisión o Factura" />
@@ -240,6 +281,7 @@ export function RecepcionAlimentoPage() {
                 loading={registrarIngreso.isPending}
                 block
                 size="large"
+                style={{ height: 44, borderRadius: 10 }}
               >
                 Registrar Ingreso en Kardex
               </Button>
