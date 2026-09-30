@@ -235,3 +235,143 @@ export interface ReporteProduccionGlobalResultado {
   porEtapaFondepes: ResumenEtapaGlobal[];
   porTramoSierraNevada: ResumenTramoGlobalSierraNevada[];
 }
+
+// --- Módulo Inventario y Kardex ---
+
+export type TipoMovimientoKardex =
+  | "IngresoCompra"
+  | "EgresoAlimentacion"
+  | "AjusteMerma"
+  | "Devolucion";
+
+export type EstadoStockReorden = "Critico" | "Reorden" | "Optimo" | "Sobrestock";
+
+export interface TipoAlimentoCatalogo {
+  id: number;
+  nombre: string;
+  marca: string;
+  calibreMm: number;
+  porcentajeProteina: number;
+  porcentajeGrasa: number;
+  etapaSugerida: string;
+  costoUnitarioPromedioKg: number;
+  costoAlmacenamientoAnualPorKg: number;
+  activo: boolean;
+  fechaCreacion: string;
+}
+
+export interface ProveedorAlimento {
+  id: number;
+  ruc: string;
+  razonSocial: string;
+  contactoNombre: string | null;
+  telefono: string | null;
+  email: string | null;
+  leadTimeDiasPromedio: number;
+  costoOrdenPedido: number;
+  activo: boolean;
+  fechaCreacion: string;
+}
+
+export interface LoteAlimento {
+  id: number;
+  tipoAlimentoId: number;
+  proveedorId: number;
+  codigoLoteFabrica: string;
+  fechaFabricacion: string | null;
+  fechaVencimiento: string;
+  pesoPorSacoKg: number;
+  cantidadSacosIngresados: number;
+  cantidadSacosActuales: number;
+  stockKgActual: number;
+  precioUnitarioKg: number;
+  fechaRecepcion: string;
+  activo: boolean;
+}
+
+export interface KardexMovimiento {
+  id: number;
+  tipoAlimentoId: number;
+  loteAlimentoId: number;
+  fechaMovimiento: string;
+  tipoMovimiento: TipoMovimientoKardex;
+  cantidadKg: number;
+  costoUnitarioKg: number;
+  costoTotal: number;
+  saldoStockKg: number;
+  saldoValorizado: number;
+  loteProduccionId: number | null;
+  observaciones: string | null;
+  usuarioId: number | null;
+}
+
+export interface ParametrosReordenDto {
+  tipoAlimentoId: number;
+  nombreAlimento: string;
+  marca: string;
+  calibreMm: number;
+  etapaSugerida: string;
+  stockActualKg: number;
+  stockActualSacosAprox: number;
+  stockValorizadoActual: number;
+  demandaDiariaPromedioKg: number;
+  desviacionEstandarDemanda: number;
+  demandaAnualKg: number;
+  leadTimeDias: number;
+  nivelServicioZ: number;
+  stockSeguridadKg: number;
+  puntoReordenKg: number;
+  cantidadEconomicaPedidoEoqKg: number;
+  cantidadEconomicaPedidoEoqSacos: number;
+  estadoStock: EstadoStockReorden;
+  estadoStockTexto: string;
+  diasStockRestante: number;
+  cantidadSugeridaPedirKg: number;
+  sacosSugeridosPedir: number;
+  proveedorRecomendado: string;
+  costoEstimadoPedido: number;
+}
+
+export interface PlanReordenGlobalResponse {
+  items: ParametrosReordenDto[];
+  totalCriticos: number;
+  totalEnReorden: number;
+  totalOptimos: number;
+  inversionSugeridaTotal: number;
+}
+
+// --- Módulo Machine Learning (TGC y Bayesiano) ---
+
+export interface ProyeccionTgcDto {
+  loteId: number;
+  codigoLote: string;
+  etapaActual: string;
+  cantidadTotalPeces: number;
+  pesoActual: number;
+  biomasaActual: number;
+  temperaturaPromedioAguaC: number;
+  tgcAplicado: number;
+  diasProyeccion: number;
+  pesoProyectadoGramos: number;
+  biomasaProyectadaKg: number;
+  racionEstimadaKg: number;
+  calibreRecomendadoMm: string;
+}
+
+export interface ActualizacionBayesianaDto {
+  parametro: string;
+  mediaPrior: number;
+  incertidumbrePrior: number;
+  promedioObservado: number;
+  muestras: number;
+  mediaPosterior: number;
+  incertidumbrePosterior: number;
+  limiteInferior95: number;
+  limiteSuperior95: number;
+  interpretacion: string;
+}
+
+export interface MotorMlDashboardResponse {
+  proyeccionesLotesActivos: ProyeccionTgcDto[];
+  parametrosCalibradosBayes: ActualizacionBayesianaDto[];
+}

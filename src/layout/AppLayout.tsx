@@ -1,4 +1,17 @@
-import { AppstoreOutlined, CloudSyncOutlined, ExperimentOutlined, HomeOutlined, LogoutOutlined, TagsOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  CloudSyncOutlined,
+  DashboardOutlined,
+  ExperimentOutlined,
+  HomeOutlined,
+  InboxOutlined,
+  LogoutOutlined,
+  RobotOutlined,
+  ShopOutlined,
+  ShoppingOutlined,
+  TagsOutlined,
+  UnorderedListOutlined,
+} from "@ant-design/icons";
 import { Avatar, Badge, Dropdown, Layout, Menu, Space, Tooltip, Typography } from "antd";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
@@ -6,18 +19,29 @@ import { useSincronizacionMuestreos } from "../offline/useSincronizacionMuestreo
 
 const { Header, Sider, Content } = Layout;
 
-// El punto de entrada es el dashboard por etapa (como el sistema anterior) — Campañas, Lotes
-// (lista plana) y Unidades quedan como herramientas administrativas, no la navegación principal.
 const ITEMS_MENU = [
-  { key: "/", icon: <HomeOutlined />, label: "Inicio" },
+  { key: "/", icon: <HomeOutlined />, label: "Inicio Producción" },
+  {
+    key: "inventario-menu",
+    icon: <ShoppingOutlined />,
+    label: "Inventario de Alimento",
+    children: [
+      { key: "/inventario/reorden", icon: <RobotOutlined />, label: "Plan Reorden y ML" },
+      { key: "/inventario/kardex", icon: <UnorderedListOutlined />, label: "Kardex de Almacén" },
+      { key: "/inventario/recepcion", icon: <InboxOutlined />, label: "Recepción de Compras" },
+      { key: "/inventario/catalogo", icon: <ShopOutlined />, label: "Catálogo de Pellets" },
+      { key: "/inventario/proveedores", icon: <TagsOutlined />, label: "Proveedores" },
+    ],
+  },
   {
     key: "herramientas",
     icon: <AppstoreOutlined />,
-    label: "Herramientas",
+    label: "Producción y Lotes",
     children: [
       { key: "/lotes", icon: <ExperimentOutlined />, label: "Todos los lotes" },
       { key: "/campanias", icon: <TagsOutlined />, label: "Campañas" },
       { key: "/unidades", icon: <AppstoreOutlined />, label: "Unidades" },
+      { key: "/reporte-produccion", icon: <DashboardOutlined />, label: "Reporte Global" },
     ],
   },
 ];
