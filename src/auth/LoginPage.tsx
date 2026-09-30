@@ -1,7 +1,8 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Alert, Button, Card, Form, Input, Typography } from "antd";
+import { LockOutlined, MoonOutlined, SunOutlined, UserOutlined } from "@ant-design/icons";
+import { Alert, Button, Card, Form, Input, Tooltip, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import { useTheme } from "../theme/ThemeContext";
 
 interface LoginFormValues {
   nombreUsuario: string;
@@ -10,6 +11,7 @@ interface LoginFormValues {
 
 export function LoginPage() {
   const { iniciarSesion, cargando, error } = useAuth();
+  const { esOscuro, toggleTema } = useTheme();
   const navigate = useNavigate();
 
   const onFinish = async (values: LoginFormValues) => {
@@ -18,13 +20,33 @@ export function LoginPage() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", background: "#f0f2f5" }}>
-      <Card style={{ width: 380 }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        background: esOscuro ? "#141414" : "#f0f2f5",
+        position: "relative",
+      }}
+    >
+      <div style={{ position: "absolute", top: 20, right: 20 }}>
+        <Tooltip title={esOscuro ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}>
+          <Button
+            type="text"
+            icon={esOscuro ? <SunOutlined style={{ color: "#faad14" }} /> : <MoonOutlined />}
+            onClick={toggleTema}
+            size="large"
+          />
+        </Tooltip>
+      </div>
+
+      <Card style={{ width: 380, borderColor: esOscuro ? "#303030" : undefined }}>
         <Typography.Title level={3} style={{ textAlign: "center", marginBottom: 4 }}>
           Sierra Nevada
         </Typography.Title>
         <Typography.Text type="secondary" style={{ display: "block", textAlign: "center", marginBottom: 24 }}>
-          Sistema de producción
+          Sistema de producción e inventario
         </Typography.Text>
 
         {error && <Alert type="error" message={error} showIcon style={{ marginBottom: 16 }} />}

@@ -6,16 +6,19 @@ import {
   HomeOutlined,
   InboxOutlined,
   LogoutOutlined,
+  MoonOutlined,
   RobotOutlined,
   ShopOutlined,
   ShoppingOutlined,
+  SunOutlined,
   TagsOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
-import { Avatar, Badge, Dropdown, Layout, Menu, Space, Tooltip, Typography } from "antd";
+import { Avatar, Badge, Button, Dropdown, Layout, Menu, Space, Tooltip, Typography } from "antd";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { useSincronizacionMuestreos } from "../offline/useSincronizacionMuestreos";
+import { useTheme } from "../theme/ThemeContext";
 
 const { Header, Sider, Content } = Layout;
 
@@ -48,6 +51,7 @@ const ITEMS_MENU = [
 
 export function AppLayout() {
   const { usuario, cerrarSesion } = useAuth();
+  const { esOscuro, toggleTema } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const { sincronizando, pendientes } = useSincronizacionMuestreos();
@@ -62,9 +66,19 @@ export function AppLayout() {
     },
   };
 
+  const borderColor = esOscuro ? "#303030" : "#e7e9ee";
+  const headerBg = esOscuro ? "#141414" : "#ffffff";
+  const logoTextColor = esOscuro ? "#ffffff" : "#1a1d24";
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider breakpoint="lg" collapsedWidth="0" theme="light" width={240} style={{ borderRight: "1px solid #e7e9ee" }}>
+      <Sider
+        breakpoint="lg"
+        collapsedWidth="0"
+        theme={esOscuro ? "dark" : "light"}
+        width={240}
+        style={{ borderRight: `1px solid ${borderColor}` }}
+      >
         <div
           style={{
             display: "flex",
@@ -73,8 +87,8 @@ export function AppLayout() {
             padding: "18px 20px",
             fontWeight: 600,
             fontSize: 15,
-            color: "#1a1d24",
-            borderBottom: "1px solid #e7e9ee",
+            color: logoTextColor,
+            borderBottom: `1px solid ${borderColor}`,
           }}
         >
           <div
@@ -97,7 +111,7 @@ export function AppLayout() {
           Sierra Nevada
         </div>
         <Menu
-          theme="light"
+          theme={esOscuro ? "dark" : "light"}
           mode="inline"
           selectedKeys={[seleccionActual]}
           items={ITEMS_MENU}
@@ -108,8 +122,8 @@ export function AppLayout() {
       <Layout>
         <Header
           style={{
-            background: "#fff",
-            borderBottom: "1px solid #e7e9ee",
+            background: headerBg,
+            borderBottom: `1px solid ${borderColor}`,
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
@@ -117,6 +131,15 @@ export function AppLayout() {
             paddingInline: 24,
           }}
         >
+          <Tooltip title={esOscuro ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}>
+            <Button
+              type="text"
+              icon={esOscuro ? <SunOutlined style={{ color: "#faad14" }} /> : <MoonOutlined />}
+              onClick={toggleTema}
+              style={{ fontSize: 16 }}
+            />
+          </Tooltip>
+
           {pendientes > 0 && (
             <Tooltip title={sincronizando ? "Sincronizando muestreos pendientes..." : `${pendientes} muestreo(s) esperando señal para sincronizar`}>
               <Badge count={pendientes} size="small">
@@ -125,10 +148,6 @@ export function AppLayout() {
             </Tooltip>
           )}
           <Dropdown menu={menuUsuario} placement="bottomRight">
-            {/* lineHeight: "normal" — Layout.Header de AntD trae line-height: 64px por defecto,
-                que se hereda a este bloque de 2 líneas y lo infla muy por encima de la altura
-                real del header, cortándose contra el borde de la ventana (bug encontrado 2026-09-23
-                al revisar la app en el navegador). */}
             <Space style={{ cursor: "pointer", lineHeight: "normal" }}>
               <Avatar>{usuario?.nombreCompleto?.[0]?.toUpperCase()}</Avatar>
               <div style={{ lineHeight: 1.3 }}>
